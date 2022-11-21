@@ -1,69 +1,63 @@
 # Circuits
-
-Behind the Tornado.cash front-end sits a number of [Circom](https://docs.circom.io) circuits, which enable the fundamental privacy guarantees that Tornado.cash users enjoy. These circuits implement the [Zero Knowledge protocol](https://en.wikipedia.org/wiki/Zero-knowledge\_proof) that Tornado.cash's smart contracts interface with to prove claims about a user's deposit, such as that it is valid, that is hasn't already been withdrawn, and in the context of Anonymity Mining, the number of blocks that exist between a note's deposit transaction and its withdrawal.
+Tornado.cash のフロントエンドの背後には、Tornado.cash ユーザーが享受する基本的なプライバシー保証を可能にする [Circom](https://docs.circom.io) 回路が多数配置されています。これらの回路は、Tornado.cashのスマートコントラクトのインターフェイスとなる[Zero Knowledge protocol](https://en.wikipedia.org/wiki/Zero-knowledge_proof)を実装し、ユーザーの預金に関する主張（有効であること、すでに引き出されていないこと、匿名マイニングの文脈ではノートの預金取引とその引き出しとの間に存在するブロック数など）を証明します。
 
 ### How ZK Circuits Work
-
 #### SNARKs and GROTH16
-
-Before trying to understand how Tornado.cash works under the hood, you first need to understand Zero Knowledge circuits, how they're constructed, and how proofs are generated client-side, then verified on-chain. While there are a [few different types](https://en.wikipedia.org/wiki/Zero-knowledge\_proof#Zero\_knowledge\_types) of ZK systems, Tornado.cash relies upon a variant known as "succinct non-interactive arguments of knowledge" (SNARK), specifically a variant called GROTH16.
+Tornado.cashの仕組みを理解する前に、まずゼロ知識回路とその構築方法、クライアントサイドでの証明の生成方法、そしてオンチェーンでの検証方法を理解する必要がある。ZKシステムには[few different types](https://en.wikipedia.org/wiki/Zero-knowledge_proof#Zero_knowledge_types)があるが、Tornado.cashは「知識の簡潔な非対話的議論」（SNARK）と呼ばれる変種、特にGROTH16と呼ばれる変種に依存している。
 
 #### Circom and snarkjs
+私たちは皆Vitalikではないので、このような複雑な多項式コミットメントの生成と実行を抽象化するような簡単なツールがあればベストでしょう。そこで、[Circom](https://docs.circom.io)と[snarkjs](https://github.com/iden3/snarkjs)の出番である。
 
-Because we're not all Vitalik, it's best if we have some simple tools that will abstract away the generation and execution of these complicated polynomial commitments. This is where [Circom](https://docs.circom.io) and [snarkjs](https://github.com/iden3/snarkjs) come in.
+Circomは回路言語のコンパイラと考えるのが最も簡単で、電気技師が電気回路を記述するのに使う[hardware description language](https://en.wikipedia.org/wiki/Hardware_description_language)のような働きをする。電気回路の代わりに、コンポーネントとその接続方法を含む**arithmetic circuit**を記述することを除いては。
 
-Circom is easiest to think of as a compiler for a circuit language which acts very much like the kind of [hardware description language](https://en.wikipedia.org/wiki/Hardware\_description\_language) that electrical engineers would use to describe an electrical circuit. Except instead of an electrical circuit, we're describing an **arithmetic circuit**, which contains components, and the way that they connect together.
-
-When you compile a Circom circuit, the resulting output is an [R1CS constraint system](https://docs.circom.io/1.-an-introduction/background#rank-1-constraint-system) and a [Wasm](https://en.wikipedia.org/wiki/WebAssembly) executable that will be used to generate a [witness](https://docs.circom.io/1.-an-introduction/background#witness).
+Circomの回路をコンパイルすると、結果として[R1CS constraint system](https://docs.circom.io/1.-an-introduction/background#rank-1-constraint-system)と[Wasm](https://en.wikipedia.org/wiki/WebAssembly)の実行ファイルが出力され、それを使って[witness](https://docs.circom.io/1.-an-introduction/background#witness)が生成されます。
 
 **R1CS**
 
-To understand R1CS (Rank-1 constraint system), there is of course more math. And where there's important cryptosystem math, there's a [post by Vitalik](https://medium.com/@VitalikButerin/quadratic-arithmetic-programs-from-zero-to-hero-f6d558cea649#5539).
+R1CS (Rank-1 constraint system)を理解するためには、もちろんもっと多くの数学が必要です。そして、重要な暗号システムの数学があるところには、[post by Vitalik](https://medium.com/@VitalikButerin/quadratic-arithmetic-programs-from-zero-to-hero-f6d558cea649#5539)があるのです。
 
-> An R1CS is a sequence of groups of three vectors $$(a, b, c)$$, and the solution to an R1CS is a vector $$s$$, where $$s$$ must satisfy the equation $$s . a * s . b - s . c = 0$$, where $$.$$ represents the dot product - in simpler terms, if we "zip together" $$a$$ and $$s$$, multiplying the two values in the same positions, and then take the sum of these products, then do the same to $$b$$ and $$s$$ and then $$c$$ and $$s$$, then the third result equals the product of the first two results.
->
-> The next step is taking this R1CS and converting it into QAP form, which implements the exact same logic except using polynomials instead of dot products ... instead of checking the constraints in the R1CS individually, we can now check all of the constraints at the same time by doing the dot product check on the polynomials.
->
-> If we try to falsify any of the variables in the R1CS solution that we are deriving this QAP solution from - say, set the last one to 31 instead of 30, then we get a $$t$$ polynomial that fails one of the checks.
+> R1CSは3つのベクトル群 $$(a, b, c)$$ の並びであり、R1CSの解はベクトル $$s$ で、$$s$$ は方程式 $$s . a * s . b - s . c = 0$$ を満たす必要がある、ここで $$.ここで$$は内積を表し、簡単に言えば、$$a$$と$$s$$を同じ位置で掛け合わせ、その和をとり、$$b$$と$$s$$、$$c$$と$$s$$を同様にすると、3番目の結果は最初の二つの結果の積に等しくなります。
 
-In short, the R1CS is a set of polynomial constraints which any proof generated by the circuit must satisfy. These constraints are [generated by Circom](https://docs.circom.io/2.-circom-fundamentals/constraints-generation) based on the relationship between various "signals" and operations in your circuit design.
+次のステップでは、このR1CSをQAP形式に変換します。これは、ドット積の代わりに多項式を使う以外は、まったく同じロジックを実装しています...R1CSの制約を個別にチェックする代わりに、多項式でドット積チェックを行うことにより、すべての制約を同時にチェックできるようになりました。
+
+このQAP解の元になっているR1CS解の変数を、例えば最後の変数を30ではなく31にするなどして改竄しようとすると、$$t$$多項式のチェックに失敗することになります。
+
+つまり、R1CSは、回路が生成する証明が満たさなければならない多項式制約の集合である。これらの制約は、回路設計における様々な「信号」と「演算」の関係に基づいて[generated by Circom](https://docs.circom.io/2.-circom-fundamentals/constraints-generation)されています。
 
 **Witnesses**
 
-Now, depending on what you're using Tornado.cash for, you might not want any witnesses. However, don't worry, if everything is working correctly, all of the witnesses to your interactions with Tornado.cash will be aggressively compacted, and their bodies disposed of as you please.
+さて、Tornado.cashの使用目的によっては、目撃者を必要としないかもしれません。しかし、心配しないでください。すべてが正しく機能していれば、Tornado.cashとのやり取りの目撃者はすべて、積極的に圧縮され、その体はあなたの好きなように処分されます。
 
-In the context of a SNARK circuit, a witness is the set of values that need to be generated from the inputs to the circuit, based on the circuit design, to satisfy all of the constraints imposed by the circuit. You can think of the witness generator produced by Circom as a circuit-specific decompression function which runs your inputs through the circuit, and snapshots all of the various intermediate values that are produced along the way.
+SNARK回路の文脈では、ウィットネスとは、回路が課すすべての制約を満たすために、回路設計に基づいて回路への入力から生成する必要のある値のセットです。Circomが生成するウィットネスジェネレータは、入力を回路に通して実行し、その過程で生成されるさまざまな中間値をすべてスナップショットする回路固有の解凍関数であると考えることができます。
 
-With this expanded form generated from your inputs, you know which values must be assigned to the constraints specified by the R1CS in order to construct a valid proof.
+このように入力から生成された展開図があれば、R1CSで指定された制約にどの値を代入すれば有効な証明となるかがわかる。
 
 **Proof**
 
-When you think of a "proof", you probably imagine that it's an incontrovertible guarantee that something is true. However, in the context of a SNARK, a "proof" actually represents an _argument_ that something is _almost certainly_ true. If we were to try to transmit the solution to every single polynomial constraint imposed by a circuit, we would end up with proofs that were orders of magnitude larger than if we simply show that certain sorts of relationships hold true between the intermediate state values within the circuit.
+証明」というと、「何かが真実であることを疑う余地のない形で保証すること」を想像するのではないでしょうか。しかし、SNARKの文脈では、「証明」は実際には「*almost certainly*が真である」という*argument*を表している。回路が課す多項式制約の解をいちいち伝えようとすると、回路内の中間状態の値の間にある種の関係が成立することを示すだけで、桁違いに大きな証明になってしまうのです。
 
-It's possible that for any given circuit, someone with sufficient computing power could generate a proof that satisfies the circuit's constraints in a malformed way, but this would be roughly equivalent in difficulty to [factoring large primes](https://en.wikipedia.org/wiki/RSA\_Factoring\_Challenge).
+任意の回路に対して、十分な計算能力を持つ人が、回路の制約を満たす証明を不正な方法で生成することは可能だが、それは[factoring large primes](https://en.wikipedia.org/wiki/RSA_Factoring_Challenge)とほぼ同等の難しさである。
 
-So, when generating a proof for a SNARK circuit, you're calculating the intermediate states of your circuit for a given input (witness generation), and then calculating the relationships between your inputs, the intermediate states, and the circuit's outputs.
+つまり、SNARK回路の証明を生成する場合、与えられた入力に対する回路の中間状態を計算し（証人生成）、入力と中間状態、そして回路の出力の関係を計算することになります。
 
-Once you have the proof that you've satisfied the necessary set of constraints, you can then publish that proof and some subset of your inputs and outputs (a.k.a. public signals). Knowing the R1CS, your public signals, your proof, and the circuit's proving key, anyone can then verify that your proof satisfies the R1CS, and that your public signals are what would be expected to correspond to your proof.
+必要な制約条件を満たしたという証明ができたら、その証明と入出力の一部（公開信号）を公開することができます。R1CS、公開信号、証明、回路の証明鍵がわかれば、誰でも証明がR1CSを満たしていること、そして公開信号が証明に対応すると予想されるものであることを検証することができる。
 
 ### Circuits
+そのZK証明回路をよく理解した上で、Tornado.cashが比較的簡単な回路を使って、パブリックブロックチェーンネットワーク上で自分の入出金取引の関係を非公開かつ許可なく曖昧にし、後で入出金の関係（例えば、出金前にどれだけ待ったか）を*about*的に証明することを可能にする方法を掘り下げましょう。
 
-With that understanding of ZK proving circuits well-in-hand, let's delve into how Tornado.cash uses some relatively simple circuits to enable you to privately and permissionlessly obscure the relationship between your deposit and withdrawal transactions on a public blockchain network, and then to later prove things _about_ the relationship between your deposit and withdrawal (e.g. how long you waited before withdrawing).
-
-Tornado.cash is best understood as having two separate major components.
+Tornado.cashは、2つの独立した主要な構成要素を持っていると理解するのが最も良いだろう。
 
 #### Core Deposit Circuit
+コアとなる入金回路は、多くのユーザーが利用するもので、ユーザーがある資産額の預金を表すコミットメントを作成したこと、その資産をまだ引き出していないこと、最初のコミットメントを作成したときに提供した秘密を知っていることを証明するものである。
 
-The core deposit circuit is what most users interact with, proving that a user has created a commitment representing the deposit of some corresponding asset denomination, that they haven't yet withdrawn that asset, and that they know the secret that they supplied when generating the initial commitment.
-
-{% content-ref url="core-deposit-circuit.md" %}
+{% content-ref url="core-deposit-circuit.md"%}。
 [core-deposit-circuit.md](core-deposit-circuit.md)
 {% endcontent-ref %}
 
 #### Anonymity Mining
+匿名マイニング回路は、匿名マイニングプログラムの基礎を形成し、Tornado.cashの預金プールが多数のアクティブな預金を維持する（したがって、他のユーザーの[k-anonymity](https://en.wikipedia.org/wiki/K-anonymity)を増やす）ように、ユーザーが契約内でより長い期間預金を残すインセンティブを与えています。
 
-The anonymity mining circuits form the basis for the Anonymity Mining program, which incentivizes users to leave their deposits in the contract for longer periods of time, so as to ensure that the Tornado.cash deposit pools maintain a large number of active deposits (thus increasing [k-anonymity](https://en.wikipedia.org/wiki/K-anonymity) for other users).
-
-{% content-ref url="anonymity-mining/" %}
+{% content-ref url="anonymity-mining/"%}。
 [anonymity-mining](anonymity-mining/)
 {% endcontent-ref %}
+

@@ -1,35 +1,28 @@
 # Minified UI Hosted Locally
+トルネード・キャッシュ・プロトコルは、コア開発者チームによって利用可能にされた最小化されたユーザー・インターフェース・バージョンを通じて、あなたのコンピュータ上でローカルに起動することができます。
 
-Tornado Cash protocol can be launched locally on your computer through a minified User Interface version made available by the core developers team.
-
-{% embed url="https://github.com/tornadocash/ui-minified" %}
+{% embed url="https://github.com/tornadocash/ui-minified" %}.
 
 ### Step #1: Clone the Github repository on your computer
-
-By opening your Command Line Interface, you can run the following commands to, first, clone the repository, then go inside the newly copied folder:
+コマンドラインインターフェイスを開いて、以下のコマンドを実行すると、まずリポジトリをクローンし、新しくコピーされたフォルダの中に入ることができます。
 
 ```
 git clone https://github.com/tornadocash/ui-minified.git
 cd ui-minified
 ```
-
 ### Step #2: Serve the Folder with Your Favorite HTTP Server
-
 ```
 python -m SimpleHTTPServer 8080
 ```
-
-You can obviously use any other http web server, such as[ npmjs.com/package/http-server](https://www.npmjs.com/package/http-server).
+[ npmjs.com/package/http-server](https://www.npmjs.com/package/http-server)など、他のhttpウェブサーバーも当然使用できます。
 
 ### Step #3: Run the UI on Localhost on your Favorite Web Browser
-
-To finish, you just need to run [http://localhost:8080](http://localhost:8080) on your Web Browser & let the magic happens 🪄
+ウェブブラウザー上で[http://localhost:8080](http://localhost:8080)を起動し、魔法をかけるだけですᾤ。
 
 ## Running a TOR service
+.onionドメインでトルネードキャッシュUIを提供したい場合、docker-composeを使用して簡単に実現する方法があります。
 
-If you wish to serve tornado cash UI on an .onion domain, there is an easy way to do it using docker-compose.
-
-* You need to paste the following into `docker-compose.yml`
+* `docker-compose.yml`に以下を貼り付ける必要があります。
 
 ```
 version: '2'
@@ -59,13 +52,13 @@ services:
         ...
         -----END RSA PRIVATE KEY-----
 ```
+* そして、次のコマンドを実行するだけです：`docker-compose up -d`
 
-* Then, just run the following command:`docker-compose up -d`
+トルネードキャッシュUIをお楽しみください🌪。
 
-Enjoy your Tornado Cash UI 🌪
-
-_This tutorial is inspired from the_[ _README.md document_](https://github.com/tornadocash/ui-minified/blob/gh-pages/README.md) _present in the Github repository._
+*This tutorial is inspired from the*[ *README.md document*](https://github.com/tornadocash/ui-minified/blob/gh-pages/README.md) *present in the Github repository.*
 
 __
 
-_Written by_ [_@ayefda_](https://torn.community/u/ayefda)
+*Written by* [*@ayefda*](https://torn.community/u/ayefda)
+

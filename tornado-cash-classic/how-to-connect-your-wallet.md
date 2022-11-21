@@ -3,93 +3,102 @@ description: >-
   To deposit or withdraw funds, you will need to connect your wallet on Tornado
   Cash.
 ---
-
 # How to connect your wallet
-
 ## Connect your wallet
+あなたのウォレットをトルネードキャッシュに接続するには、2つの方法があります。トルネードキャッシュのメインページで**Connect**をクリックするか、*directly after selecting your deposit amount.*をクリックするかのどちらかです。
 
-To connect your wallet to Tornado Cash, you have two options: You can either click on **Connect** on the main page of Tornado Cash, _directly after selecting your deposit amount._
+![Connecting via the home page](.gitbook/assets/which.gif)
 
-![Connecting via the home page](<.gitbook/assets/which.gif>)
-
-You can also click on **Settings** on the top right of the page then click on **Connect your wallet.**&#x20;
+また、ページ右上の**Settings**をクリックし、**Connect your wallet.**&#x20をクリックすることも可能です。
 
 ![Connecting via Settings](<.gitbook/assets/Screen Recording 2022-05-16 at 4.07.52 PM.gif>)
 
-We recommend you to use Metamask since it is currently the most reliable and stable wallet.
+現在、最も信頼性が高く、安定したウォレットであるMetamaskを使用することをお勧めします。
 
 ## **Metamask wallet**
+Metamaskウォレットをお持ちの方は、ブラウザ上で**already have the extensions installed**を確認する必要があります。*If you don't know how to install it, you can check this* [*tutorial*](https://docs.tornado.cash/general/how-to-use-tornado-cash-with-tor#step-3-install-metamask) *before the next step.* &#x20;
 
-If you have a Metamask wallet, you have to make sure you **already have the extensions installed** on your browser. _If you don't know how to install it, you can check this_ [_tutorial_](https://docs.tornado.cash/general/how-to-use-tornado-cash-with-tor#step-3-install-metamask) _before the next step._ &#x20;
+1. 拡張機能をインストールしたら、「**Connect**」をクリックします。
 
-1. Once you have the extension installed, click on **Connect**.
-2. A pop up page will open up asking if you wish to connect your wallet to Tornado Cash.&#x20;
-3. Click on **Next,** then **Connect**.
-4. You are now connected to Tornado Cash.
+2. あなたの財布を Tornado Cash.&#x20 に接続するかどうかを尋ねるポップアップページが開かれます。
+
+3. **Next,**をクリックし、次に**Connect**をクリックします。
+
+4. トルネードキャッシュに接続されました。
 
 ![Connection with a Metamask Wallet](<.gitbook/assets/Screen Recording 2022-05-16 at 4.05.59 PM.gif>)
 
 ### **Built-in browser**
-If you wish, you can navigate online through the **mobile** application. To do so, you have to take the following steps:
-1. Open the application.
-2. Click on the menu icon on the top left of your screen.
-3. Click on "Browser".
-3. You can now start browsing within MetaMask app.
+ご希望であれば、**mobile**アプリケーションからオンラインでナビゲートすることができます。そのためには、以下の手順が必要です。
 
-![Browsing within Metamask](<.gitbook/assets/metamask.gif>)
+1. アプリケーションを開く。
+
+2. 画面左上のメニューアイコンをクリックします。
+
+3. ブラウザー」をクリックします。
+
+3. これでMetaMaskアプリ内のブラウジングを開始することができます。
+
+![Browsing within Metamask](.gitbook/assets/metamask.gif)
 
 ## WalletConnect
-
-For other wallets, **you should click on WalletConnect**. You will have to use your phone since many wallets do not have Desktop applications yet. **It generates a QR code that needs to be scanned.**&#x20;
+他のウォレットの場合は、**you should click on WalletConnect**。多くの財布はまだデスクトップアプリケーションを持っていないため、携帯電話を使用する必要があります。**It generates a QR code that needs to be scanned.**&#x20。
 
 ![WalletConnect's QR code](<.gitbook/assets/Screen Shot 2022-05-16 at 3.54.57 PM (1).png>) ![](<.gitbook/assets/Screen Shot 2022-05-16 at 5.47.11 PM.png>)
 
 ### **Trustwallet**
+ウォレットを接続するには、スマートフォンが必要です。TrustWalletをお持ちの方は、スマートフォンでアプリケーションを起動し、次のステップに進んでください。
 
-To connect your wallet, you will need your phone. If you have a TrustWallet wallet, you should open the application on your smartphone then follow the next steps:
+1. **Settings**.&#x20をクリックします。
 
-1. Click on **Settings**.&#x20;
-2. Click on **WalletConnect**.&#x20;
-3. Scan the QRCode on Tornado Cash's page.
-4. Click on **Connect**.
-5. You are now connected with Tornado Cash.
+2. **WalletConnect**.&#x20をクリックします。
 
-![Connecting Trustwallet](<.gitbook/assets/trust.gif>)
+3. トルネードキャッシュのページにあるQRCodeをスキャンしてください。
 
-If you wish, you can navigate online through the **mobile** application. To do so, you have to take the following steps:
-1. Open the application.
-2. Look for the icon "Browser" at the bottom of your screen.
-3. You can now start browsing within Trustwallet app.
+4. **Connect**をクリックします。
 
-![Browsing within Trustwallet](<.gitbook/assets/trustbrowser.gif>)
+5. トルネードキャッシュに接続されました。
 
+![Connecting Trustwallet](.gitbook/assets/trust.gif)
+
+ご希望であれば、**mobile**アプリケーションからオンラインでナビゲートすることができます。そのためには、以下の手順が必要です。
+
+1. アプリケーションを開く。
+
+2. 画面下部の「ブラウザ」というアイコンを探してください。
+
+3. これで、Trustwalletアプリ内で閲覧を開始することができます。
+
+![Browsing within Trustwallet](.gitbook/assets/trustbrowser.gif)
 
 ### **ImToken**
+ウォレットを接続するには、携帯電話が必要です。ImTokenウォレットをお持ちの方は、アプリケーションを起動し、次のステップに進んでください。
 
-To connect your wallet, you will need your phone. If you have a ImToken wallet, you should open the application then follow the next steps:
+1. アイコン（右上）に**Click**.&#x20;
 
-1. **Click** on the icon (top right).&#x20;
-2. **Scan** the QRCode on Tornado Cash's page.
-3. **Click** on Connect.
-4. You are now connected with Tornado Cash.&#x20;
+2. トルネードキャッシュのページでQRCodeを**Scan**する。
 
-![Connecting ImToken](<.gitbook/assets/imtoken.gif>)
+3. コネクトで**Click**。
+
+4. トルネードキャッシュに接続されました。
+
+![Connecting ImToken](.gitbook/assets/imtoken.gif)
 
 ### **Argent Wallet**
+ウォレットを接続するには、携帯電話が必要です。Argentのウォレットをお持ちの方は、アプリケーションを起動し、次のステップに進んでください。
 
-To connect your wallet, you will need your phone. If you have a Argent wallet, you should open the application then follow the next steps:
+1. センド（右下）に**Click**を搭載。
 
-1. **Click** on the Send (bottom right).
-2. **Click** on the scan icon (top right).
-3. Scan the QRCode on Tornado Cash's page.
-4. You are now connected with Tornado Cash.
+2. スキャンアイコン（右上）を**Click**する。
 
-![Connecting Argent](<.gitbook/assets/argen.gif>)
+3. トルネードキャッシュのページにあるQRCodeをスキャンしてください。
+
+4. トルネードキャッシュに接続されました。
+
+![Connecting Argent](.gitbook/assets/argen.gif)
 
 ### **Other wallets**
+他のウォレットでは、次のような手順で行います。 **WalletConnect's QR code needs to be scanned in order to link your wallet to Tornado Cash.** スキャンアイコン（ランディングページまたはウォレットのアプリケーションの設定セクションにあることが多い）を常に確認するようにしてください。
 
-For others wallets, steps might be really similar: **WalletConnect's QR code needs to be scanned in order to link your wallet to Tornado Cash.** Make sure to always check for a scanning icon (often located on the landing page or the settings section on your wallet's application).
+文：[Haneul](https://torn.community/u/haneul/)
 
-
-
-Written by [Haneul](https://torn.community/u/haneul/)

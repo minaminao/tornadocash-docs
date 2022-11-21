@@ -1,132 +1,128 @@
 # Core Deposit Circuit
-
-The core deposit circuit is what most users interact with, proving that a user has created a commitment representing the deposit of some corresponding asset denomination, that they haven't yet withdrawn that asset, and that they know the secret that they supplied when generating the initial commitment.
+コアとなる入金回路は、多くのユーザーが利用するもので、ユーザーがある資産額の預金を表すコミットメントを作成したこと、その資産をまだ引き出していないこと、最初のコミットメントを作成したときに提供した秘密を知っていることを証明するものである。
 
 ## Making a Deposit
-
-A deposit into Tornado.cash is a very simple operation, which doesn't actually involve any ZK proofs. At least not yet. To make a deposit, you invoke the `deposit` method of a [Tornado contract](https://github.com/tornadocash/tornado-core/blob/master/contracts/Tornado.sol) instance, supplying a [Pedersen Commitment](https://crypto.stackexchange.com/questions/64437/what-is-a-pedersen-commitment), along with the asset denomination that you're depositing. This commitment is inserted into a specialized [Merkle Tree](https://en.wikipedia.org/wiki/Merkle_tree), where the structure of the Merkle Tree is aligned to an elliptic curve associated with a prime in the order of the BN128 elliptic curve, and the labels of the tree are computed using MiMC hashing.
+Tornado.cashへの預金は非常にシンプルな操作で、実際にはZKの証明は必要ありません。少なくともまだない。入金を行うには、[Tornado contract](https://github.com/tornadocash/tornado-core/blob/master/contracts/Tornado.sol) インスタンスの `deposit` メソッドを呼び出し、入金する資産額とともに [Pedersen Commitment](https://crypto.stackexchange.com/questions/64437/what-is-a-pedersen-commitment) を提供する。このコミットメントは専用の[Merkle Tree](https://en.wikipedia.org/wiki/Merkle_tree)に挿入され、BN128楕円曲線のオーダーの素数に関連する楕円曲線にメルクルツリーの構造が合わせられ、ツリーのラベルはMiMCハッシュで計算される。
 
 ### Commitment Scheme
+暗号の文脈で「約束」をするとき、あなたがしていることは、秘密の値（多くの場合、大きくてランダム）を取って、何らかの暗号関数（例えば、ハッシュ関数）にかけ、その結果を公開することです。その後、コミットメントを実行する必要があるときに、元の秘密値を知っていることを証明します。
 
-When you make a "commitment" in the context of cryptography, what you're doing is taking a secret value - often large and random - and running it through some cryptographic function (e.g. a hash function), then disclosing the result. Later, when you need to make good on the commitment, you prove that you know the original secret value.
-
-This is known as a [commitment scheme](https://en.wikipedia.org/wiki/Commitment_scheme).
+これは[commitment scheme](https://en.wikipedia.org/wiki/Commitment_scheme)と呼ばれるものです。
 
 ### Pedersen Hash
+[Pedersen Hash](https://iden3-docs.readthedocs.io/en/latest/iden3_repos/research/publications/zkproof-standards-workshop-2/pedersen-hash/pedersen.html)は極めて特殊なハッシュ関数で、特にゼロ知識証明回路を活用したアプリケーションに適している。SHA-256のような他のハッシュ関数が、わずかな入力の違い（[avalanche effect](https://en.wikipedia.org/wiki/Avalanche_effect)）でも非常に異なる出力を生成するような性質を持つように設計されているのに対し、Pedersenハッシュはゼロ知識証明回路において非常に効率的にハッシュを計算することを優先している。
 
-A [Pedersen Hash](https://iden3-docs.readthedocs.io/en/latest/iden3\_repos/research/publications/zkproof-standards-workshop-2/pedersen-hash/pedersen.html) is an extremely specialized hashing function that is particularly well-suited for use in applications leveraging Zero Knowledge proving circuits. Where other hashing functions like SHA-256 are designed to exhibit properties such as producing very different outputs for even slightly different inputs (the [avalanche effect](https://en.wikipedia.org/wiki/Avalanche_effect)), Pedersen hashing instead prioritizes the ability to compute the hash extremely efficiently in Zero Knowledge circuits.
+Pedersenでメッセージをハッシュ化すると、メッセージのビットが[Baby Jubjub](https://github.com/barryWhiteHat/baby_jubjub)という[elliptic curve](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)に沿った点まで圧縮されます。Baby Jubjubは、[EIP-196](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-196.md)で追加されたEthereumネットワーク上のプリコンパイルされた操作でサポートされているBN128楕円曲線の順番にあります。つまり、Pedersen HashingなどBaby Jubjub曲線を利用した演算は、ガス効率が高いのです。
 
-Hashing a message with Pedersen compresses the bits of the message down to a point along an [elliptic curve](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography) called [Baby Jubjub](https://github.com/barryWhiteHat/baby_jubjub). Baby Jubjub is in the order of the BN128 elliptic curve that is supported by precompiled operations on the Ethereum network which were added in [EIP-196](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-196.md). This means that operations that use the Baby Jubjub curve, such as Pedersen Hashing, are highly gas-efficient.
-
-When you compute the Pedersen hash of a message, the resulting point along the its elliptic curve is very efficient to verify, but infeasible to reverse back into the original message.
+メッセージのPedersenハッシュを計算するとき、その楕円曲線に沿った結果のポイントは、検証には非常に効率的だが、元のメッセージに逆戻りさせることは不可能である。
 
 ### Tornado Commitment
+Tornado.cashの入金に対するコミットメントを生成するために、まず、それぞれ31バイト長の2つの大きなランダムな整数を生成する。最初の値は、後で預金を引き出すために開示するヌリファイヤーであり、2番目は預金と引き出しの間の機密関係を確保するためのシークレットである。
 
-To generate a commitment for a Tornado.cash deposit, you first generate two large random integers, each 31 bytes in length. The first value is a nullifier that you will later disclose in order to withdraw your deposit, and the second is a secret that secures the confidential relationship between your deposit and withdrawal.
+入金メモのプリイメージはこれら2つの値(`nullifier` + `secret`)を連結したものであり、長さ62バイトのメッセージとなる。このメッセージはPedersenハッシュ化され、32バイトのビッグエンディアン整数としてエンコードされたBaby Jubjub楕円曲線の要素を表す出力となる。
 
-The preimage of your deposit note is the concatenation of these two values (`nullifier` + `secret`), resulting in a message 62 bytes in length. This message is Pedersen hashed, resulting in an output representing an element of the Baby Jubjub elliptic curve encoded as a 32-byte big-endian integer.
-
-If you want to see this in code form, you can reference the [tornado-cli deposit function](https://github.com/tornadocash/tornado-cli/blob/master/cli.js#L53-L112).
+これをコード形式で見たい場合は、[tornado-cli deposit function](https://github.com/tornadocash/tornado-cli/blob/master/cli.js#L53-L112)を参照すればよい。
 
 ### MiMC Merkle Tree
+[Tornado contract](https://github.com/tornadocash/tornado-core/blob/master/contracts/Tornado.sol)は、MiMCハッシュを使用してノードのラベル付けを行う[Merkle Tree](https://en.wikipedia.org/wiki/Merkle_tree)に特化したものです。
 
-The [Tornado contract](https://github.com/tornadocash/tornado-core/blob/master/contracts/Tornado.sol) is a specialized [Merkle Tree](https://en.wikipedia.org/wiki/Merkle_tree) which labels its nodes using MiMC hashes.
+Merkle木を知らない人のために説明すると、非リーフノードにはその子ノードのラベルのハッシュが、リーフノードにはそのデータのハッシュがラベル付けされている二分木である。通常、メルクル木はSHA-2などの一方向暗号ハッシュ関数を用いるが、今回はいくつかの有用な特性を持つMiMCを用いている。
 
-For those not familiar with Merkle Trees, they are binary trees where each non-leaf node is labelled with the hash of the labels of its child nodes, and the leaf nodes are labelled with the hash of their data. Ordinarily, Merkle Trees use a one-way cryptographic hashing function like SHA-2, but in this case, we're using MiMC, which has some useful properties.
+ゼロ知識証明は基本的に素数体に基づいており、PedersenハッシュはBaby Jubjub楕円曲線によって定義される素数体内の点であり、これはEthereumでネイティブにサポートされるBN128曲線のオーダー内であることから、MiMCの有用な特性の1つは、素数体での動作に適していることです。ゼロ知識証明は運用コストが高く、イーサリアム取引における各操作にはそれに応じたガスコストがかかるため、私たちが設計する特定の種類の操作は、可能な限りガス効率を高める必要があります。
 
-One of the useful properties of MiMC is that it's well-suited to operating over prime fields, which is important to us because Zero Knowledge proofs are fundamentally based on prime fields, and Pedersen Hashes are points within a prime field defined by the Baby Jubjub elliptic curve - which is in turn within the order of the BN128 curve supported natively on Ethereum. Because Zero Knowledge proofs are operationally expensive, and each operation in an Ethereum transaction has a corresponding gas cost, the specific types of operations we design around need to be as gas-efficient as possible.
-
-The other particularly useful properties of MiMC are that it's non-parallelizable, and difficult to compute but easy to verify. These properties add to the security of the contract by making it computationally infeasible to calculate a forged "commitment" which has a colliding path within the merkle tree.
+このほか、MiMCの特に有用な特性として、「非並列化可能」「計算は難しいが検証は簡単」というものがある。これらの特性により、メルクル木の中で衝突する経路を持つ偽造された「約束」を計算することは、計算上不可能になり、契約の安全性が高められる。
 
 ### Zero Nodes
+Tornado Merkle Treeの初期化において、木の高さをカバーする単一のパスが、`keccak256("tornado") % FIELD_SIZE`のラベルを持つ「ゼロリーフ」ノードから始まるようにあらかじめ割り当てられている。根に向かう後続の非葉ノードには、あたかも木の底部全体が同じ葉ノードで占められているかのようなラベルが付けられる。
 
-During the initialization of the Tornado Merkle Tree, a single path spanning the height of the tree is preallocated starting with a "zero leaf" node with a label of `keccak256("tornado") % FIELD_SIZE`. Each subsequent non-leaf node toward the root is then labelled as if the entire bottom of the tree were populated by that same same leaf node.
-
-The purpose of these "zero nodes" is to ensure that all paths within the merkle tree are invalid until they terminate in a valid commitment.
+この「ゼロノード」の目的は、有効なコミットメントで終了するまでは、メルクル木内のすべての経路が無効であることを保証することである。
 
 ### Inserting a Commitment
+Tornadoコントラクトのメルクルツリーにコミットを挿入する場合、「ゼロリーフ」をPedersenコミットのMiMCハッシュをラベルとする新しいリーフに置き換え、さらにツリーをトラバースして、新しいリーフが下に紹介するラベル更新に基づいて新しいラベルを各その後の親ノードで更新することになります。
 
-When you insert a commitment into the Tornado contract's merkle tree, you are replacing a "zero leaf" with a new leaf whose label is the MiMC hash of your Pedersen commitment, and then traversing up the tree updating each subsequent parent node with a new label based on the label updates that your new leaf introduces below.
+コミットメントはツリー内で左から右へ挿入され、2つのコミットメントの挿入ごとに「サブツリー」が満たされる。各挿入は木の「インデックス」を増加させ、次のコミットメントがそのメルクルパスのエントリーの左側と右側のどちらに挿入されるかを決定します。
 
-Commitments are inserted from left to right within the tree, with every two commitment insertions filling a "subtree". Each insertion increments the "index" of the tree, determining whether the next commitment will be inserted on the left or right side of the entry to its merkle path.
+入金によってツリーが更新されると、最上位のノードのラベルがツリーの新しい「ルート」になり、過去100個のルートのラベルを含むローリングヒストリーに追加され、後の出金処理に使用されます。
 
-Once your deposit has updated the tree, the label of the top-most node becomes the tree's new "root", and is added to a rolling history containing the labels of the last 100 roots, for later use in processing withdrawal transactions.
+Tornado.cashの入金契約は20の「レベル」で展開され、各レベルは潜在的な葉の数を2のべき乗で増やしている。つまり、契約のメルクル木は最大2^20葉までサポートしており、交換が必要になるまでに最大1,048,576件の入金が可能であることを意味している。
 
-The Tornado.cash deposit contracts are deployed with 20 "levels", with each level increasing the number of potential leaves by a power of 2. That means that the contract's merkle tree supports up to 2^20 leaves, allowing for up to 1,048,576 deposits to be made into the contract before it needs to be replaced.
-
-The reason behind this seemingly-low number of levels is that every deposit has to perform as many updates to the tree as there are levels. A tree with more levels would require more gas per deposit, as well as correspondingly larger proof sizes when withdrawing notes.
+このようにレベル数が少ないように見えるのは、入金ごとにレベルの数だけツリーを更新しなければならないからである。レベル数が多いツリーでは、入金ごとに必要なガス量が多くなり、紙幣の引き出し時に必要なプルーフサイズも大きくなります。
 
 ## Making a Withdrawal
-
-Having made a deposit, you now have a set of truth claims that you can generate a proof based upon. Generally speaking, Zero Knowledge proofs are anchored to some value(s) known by both the prover and the verifier, to which a relationship is going to be proven to a set of values known only by the prover. The circuit verifier can confirm that the prover has used the value(s) that are known, and that the proof that they computed satisfies the constraints imposed by the circuit.
+預金をしたことで、あなたは今、証明の根拠となる真実の主張の集合を手に入れた。一般に、ゼロ知識証明は、証明者と検証者の双方が知っている何らかの値に固定され、それに対して、証明者のみが知っている値の集合との関係を証明しようとするものである。回路検証者は、証明者が既知の値を使用し、その値が計算された証明が回路の制約を満たすことを確認することができる。
 
 ### Inputs to a Withdrawal Proof
-
-In the case of Tornado.cash deposits, the prover (the person submitting a withdrawal transaction), and the verifier (the deposit contract's withdrawal method) both know a recent merkle root. The prover also supplies a set of other public inputs that they used for the generation of their proof.
+Tornado.cashの入金の場合、証明者（出金取引を行う人）と検証者（入金契約の出金方法）の両方が最近のメルクルルートを知っている。証明者は、証明の生成に使用した他の公開入力のセットも提供する。
 
 #### The total set of public inputs for a withdrawal proof are:
+1. 最近のメルクルルート
 
-1. A recent merkle root
-2. The Pedersen hash of the nullifier component from their deposit commitment
-3. The address of the recipient of their withdrawal
-4. The address of the relayer that they've selected (or their own address)
-5. The fee that they're paying the relayer (or zero)
-6. The refund that they're paying the relayer (or zero)
+2. デポジットコミットメントからのヌリファイヤーコンポーネントのペダーセンハッシュ
+
+3. 退会される方の住所
+
+4. 相手が選択した中継者のアドレス（または自分のアドレス）
+
+5. 中継者に支払っている料金（もしくは0円）
+
+6. 中継者に支払っている返金額（もしくは0円）
 
 #### The additional private inputs for a withdrawal proof are:
+1. デポジットコミットメントからヌリファイヤーコンポーネントを
 
-1. The nullifier component from their deposit commitment
-2. The secret component from their deposit commitment
-3. The set of node labels that exist in the path between the root and the leaf nodes of the merkle tree
-4. An array of `0/1` values indicating whether each specified path element is on the left or right side of its parent node
+2. デポジットコミットメントに含まれる秘密の成分
+
+3. メルクル木のルートとリーフノード間の経路に存在するノードラベルの集合
+
+4. 指定された各パス要素が、親ノードの左側にあるか右側にあるかを示す `0/1` 値の配列。
 
 ### Proven Claims
+コミットメントを構築し、merkle treeに挿入したときに、私たちが新たに作り出した巧妙な知識を見逃すのは簡単なことでしょう。撤退するためには、Pedersenコミットメントの構成要素を知っていることを証明するだけで、merkle木はそのコミットメントハッシュを格納する効率的な方法に過ぎないと考える傾向があるかもしれません。
 
-It would be easy to miss the clever new piece of knowledge we created when we constructed and inserted our commitment into the merkle tree. You might be inclined to think that to make a withdrawal, we're simply going to prove that we know the components of the Pedersen commitment, and that the merkle tree is just an efficient way to store those commitment hashes.
+この構成が特別なのは、単に預託されたコミットメントの構成要素を知っているというだけでなく、コミットメントの前像から始まる**know the path to a commitment within the tree**、**how to get there**を単純に証明できることです。
 
-What's special about this construction is that it enables us to prove not just that we know the components of a deposited commitment, but rather it enables us to prove simply that we **know the path to a commitment within the tree**, and **how to get there** starting with a commitment preimage.
-
-If we were only to prove that we knew the preimage to a deposited hash, we would risk revealing which commitment is ours. Instead, we're not disclosing the commitment preimage, but instead we're simply proving that we have knowledge of a preimage to a commitment within the tree. Which commitment is ours remains completely indistinguishable on the withdrawal side of the circuit protocol.
+もし私たちが預けたハッシュの前景像を知っていることを証明するだけなら、どのコミットメントが私たちのものかを明らかにする危険があります。その代わりに、私たちはコミットメントの前景を公開するのではなく、単に木の中のコミットメントの前景を知っていることを証明しているのです。どのコミットメントが私たちのものかは、回路プロトコルの引き出し側では全く区別がつかないままです。
 
 ### Computing the Witness
-
 **Nullifier Hash Check**
 
-In order to compute the witness for the withdrawal proof, our circuit first takes the private deposit commitment inputs (`nullifier` + `secret`), and runs them through a circuit component which simultaneously computes the Pedersen hash of the full commitment message, and the Pedersen hash of the nullifier alone. The circuit then compares the resulting nullifier hash to the one you supplied as a public input, and asserts their equality.
+引き出し証明の証人を計算するために、この回路はまず私的な預託約束入力（`nullifier` + `secret`）を受け取り、完全な約束メッセージのPedersenハッシュと、ヌリファイアだけのPedersenハッシュを同時に計算する回路部品を通して実行される。その後、回路は結果のヌリファイアハッシュと公開入力として提供されたものを比較し、それらの等価性を主張する。
 
 **This proves that the nullifier hash that you supplied publicly is in fact a component of your original commitment.**
 
 **Merkle Tree Check**
 
-Next, the circuit takes the commitment hash it has computed, the merkle root you have specified publicly, and the path elements and left/right selectors that you specified privately, as inputs to a component which checks your merkle tree path claim.
+次に、計算したコミットメントハッシュ、公開で指定したmerkle root、非公開で指定したパス要素や左右のセレクタを入力として、merkle treeのパス主張をチェックする回路を構成します。
 
-The Merkle Tree Checker starts from the bottom of the path, inputting your commitment hash and the first element of your proposed path into a Muxer. The Muxer takes a third input, which is an element from your supplied left/right directions. The Muxer component uses these directions to inform an MiMC hashing component as to the order of its inputs. If the supplied direction is 0, then the supplied path element is on the left, and your commitment hash is on the right. If the direction is 1, then the order is reversed.
+Merkle Tree チェッカーは、コミットメントハッシュと提案されたパスの最初の要素を Muxer に入力し、パスの一番下から開始されます。Muxerは3番目の入力として、指定された左右の方向から1つの要素を受け取ります。Muxerコンポーネントは、これらの方向を使用して、MiMCハッシュコンポーネントにその入力の順序を通知します。与えられた方向が 0 の場合、与えられたパス要素が左側にあり、コミットメントハッシュが右側にあります。もし方向が1であれば、順序は逆になります。
 
-The MiMC hasher outputs the resulting hash, and the Merkle Tree Checker proceeds to the next level. It repeats the last process, except this time, instead of using your commitment hash, it uses the hash of the last level. It continues to run through each level of the proposed path, until it ends up with a final hash output.
+MiMCハッシャーは結果のハッシュを出力し、Merkle Tree Checkerは次のレベルへ進む。今回は、コミットメントハッシュの代わりに、最後のレベルのハッシュを使用することを除いて、最後の処理を繰り返す。そして、最終的なハッシュの出力が得られるまで、提案されたパスの各レベルを実行し続ける。
 
-The Merkle Tree Checker compares the hash that it has computed to the public merkle root input that you supplied, and asserts their equality.
+Merkle Tree Checkerは、計算したハッシュと入力された公開Merkle ルートを比較し、両者が等しいことを主張する。
 
 **This proves that your commitment exists within some path beneath the specified merkle root.**
 
 **Extra Withdrawal Parameter Check**
 
-Before finishing, the circuit takes each of the remaining four public inputs, and squares them into a public output. While this isn't strictly necessary, it creates a set of constraints within your proof that ensure that your transaction parameters can't be tampered with before your withdrawal transaction is processed. If any of those parameters were to change, your proof would no longer be valid.
+終了する前に、回路は残りの4つの公開入力をそれぞれ取り、それらを2乗して公開出力とする。これは厳密には必要ないのだが、出金処理が行われる前に取引パラメータが改ざんされないように、証明の中に一連の制約を作り出すのである。もし、これらのパラメータのいずれかが変更された場合、あなたの証明はもはや有効ではないだろう。
 
 ### Computing the Proof
-
-Now that we have a witness for our proof, we take those witnessed state values and input them into the R1CS corresponding to the Withdrawal circuit, and run the prover over it. Out of the prover comes two proof artifacts. The first is the proof itself, according to the SNARK protocol we're using, and the second is the set of public inputs and outputs corresponding to that proof.
+証明の証人ができたので、その証人の状態値をWithdrawal回路に対応するR1CSに入力し、その上で証明器を走らせます。証明器からは、2つの証明の成果物が出てくる。1つはSNARKプロトコルによる証明、もう1つはその証明に対応する公開入出力の集合である。
 
 ### Completing a Withdrawal Transaction
+出金証明を作成したら、その証明と公開入力を、入金契約の`withdraw`メソッドに供給します。このメソッドは次のことを検証する。
 
-With the withdrawal proof now generated, you supply that proof, along with its public inputs, to the `withdraw` method of the deposit contract. This method verifies that:
+1. 指定された中継料が、出金する資産の額面金額を超えないこと。
 
-1. The specified relayer fee does not exceed the value of the denomination of asset being withdrawn
-2. The supplied nullifier hash has not been spent before
-3. The supplied merkle root is known, using the 100-root historical record
-4. The supplied proof is valid
+2. 与えられたヌリファイヤーハッシュが以前に使用されたことがない
 
-One of the artifacts deployed as a dependency of the deposit contract is a Solidity contract that is generated using the proving key of the Withdrawal circuit as an input. This Verifier contract is an optimized proof verifier with a single public view function, which accepts a proof and the array of six public inputs as `uint256` values.
+3. 供給されたメルクル根は、100根の履歴を使用して、既知のものです
 
-This function returns `TRUE` if the proof is valid according to the public inputs.
+4. 提供された証明は有効である
 
-If the above preconditions are met, the supplied nullifier hash is inserted into the set of spent nullifiers, and then the value of the deposit is distributed amongst the recipient and relayer, according to the specified fee parameters.
+預金コントラクトの依存関係として配備された成果物の1つは、Withdrawal回路の証明キーを入力として使用して生成されるSolidityコントラクトである。この検証コントラクトは、1つのパブリックビュー関数を持つ最適化された証明検証器であり、証明と6つのパブリック入力の配列を`uint256`値として受け入れる。
+
+この関数は、公開された入力にしたがって証明が有効であれば、`TRUE` を返す。
+
+上記前提条件が満たされた場合、供給されたヌリファイヤーハッシュを使用済みヌリファイヤーセットに挿入し、指定された料金パラメータに従って、受信者と中継者の間で預託金の値を分配する。
+

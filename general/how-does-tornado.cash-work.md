@@ -1,42 +1,43 @@
 # How Does Tornado Cash Work?
-
-Before diving into the tutorials explaining & easing the use of Tornado.Cash, here is an overall overview of the protocol's global functioning.
+Tornado.Cashの使い方を説明するチュートリアルに入る前に、プロトコルのグローバルな機能についての全体的な概要を説明します。
 
 ### Global overview of Tornado.Cash functioning
+プライバシーを実現するために、Tornado.Cash **uses smart contracts that accept token deposits from one address and enable their withdrawal from a different address**.それらのスマートコントラクトは、預けたすべての資産を混合するプールとして機能する。
 
-To achieve privacy, Tornado.Cash **uses smart contracts that accept token deposits from one address and enable their withdrawal from a different address**. Those smart contracts work as pools that mix all deposited assets.
+これらのプールから完全に新しいアドレスによって資金が引き出されると、ソースと宛先の間のオンチェーンリンクが切断されます。そのため、引き出された暗号資産は匿名化されます。
 
-Once the funds are withdrawn by a complete new address from those pools, the on-chain link between the source & the destination is broken. The withdrawn crypto-assets are therefore anonymized.
-
-While tokens are in a Tornado Cash pool, the custody remains in users’ hands. Users, therefore, have complete control over their tokens.
+トークンがTornado Cashプールにある間、親権はユーザーの手元に残ります。したがって、ユーザーは自分のトークンを完全にコントロールすることができます。
 
 **For traditional Tornado Cash fixed-amount pools**:
 
-* When a user puts funds into a pool (a.k.a. the deposit), a private note is generated. This private note works as a private key for the user to access those funds later. To withdraw them, the same user can use a different address - an old or a new one - and recover his/her funds thanks to this private key.
+* ユーザーが資金をプールに入れる（預ける）と、プライベートノートが生成されます。このプライベートノートは、そのユーザーが後で資金にアクセスするための秘密鍵として機能します。資金を引き出すには、同じユーザーが別のアドレス（古いアドレスでも新しいアドレスでも）を使用し、この秘密鍵のおかげで資金を回収することができます。
 
 **For Tornado Cash Nova, the new ETH pool with arbitrary amounts & shielded transfers**:
 
-* Funds are directly linked to a given wallet address. There is no private note or key. Users can access their funds by connecting to the pool with the appropriate address.
-* Custody is either acquired by the act of depositing tokens into the pool or by registering in the pool & receiving shielded transfers from another address.
+* 資金は、指定されたウォレットアドレスに直接リンクされています。プライベートノートやキーは存在しません。ユーザーは、適切なアドレスでプールに接続することで、資金にアクセスすることができます。
 
-The strength of such protocol is linked directly to its number of users and the size of its pool. The more users deposit into the pool the merrier. However, to preserve privacy & anonymity, the user must keep in mind some basic rules, such as:
+* カストディは、トークンをプールに預ける行為、またはプールに登録し、他のアドレスから遮蔽された転送を受け取ることによって取得されます。
 
-* Using a relayer to pay gas at withdrawal;
-* Allowing time to lapse between the deposit & the withdrawal action;
-* Mixing its funds with the crowd by waiting for several transactions before recovering its assets.
+このようなプロトコルの強さは、ユーザー数とそのプールのサイズに直接リンクしています。より多くのユーザーがプールに入金すればするほど、その効果は大きくなります。しかし、プライバシーと匿名性を維持するために、ユーザーは以下のような基本的なルールを心に留めておく必要があります。
 
-_More recommendations are provided in:_ [_Tips to remain anonymous_](tips-to-remain-anonymous.md)_._
+* 出金時のガス代支払いに中継器を使用。
+
+* 入金＆出金操作の間に時間が経過することを許容する。
+
+* 資産を回収するまでに何度か取引を行い、資金を群衆と混合させること。
+
+*More recommendations are provided in:* [*Tips to remain anonymous*](tips-to-remain-anonymous.md)*.*
 
 ### Contribution of zk-SNARK & hashing process
+Tornado.Cashは、ゼロ知識簡潔非対話的知識論証（zk-SNARKとも呼ばれる）を使用して、取引を検証し許可しています。
 
-Tornado.Cash uses Zero-Knowledge Succinct Non-Interactive Argument of Knowledge (also called zk-SNARK) to verify & allow transactions.
+入金を処理するために、Tornado.Cashはバイトのランダムな領域を生成し、[Pedersen Hash](https://iden3-docs.readthedocs.io/en/latest/iden3_repos/research/publications/zkproof-standards-workshop-2/pedersen-hash/pedersen.html)（zk-SNARKsと友好的であるため）を介してそれを計算し、次にトークンと20 MiMCハッシュをスマートコントラクトに送ります。その後、コントラクトはそれをメルクルツリーに挿入する。
 
-To process a deposit, Tornado.Cash generates a random area of bytes, computes it through the [Pedersen Hash](https://iden3-docs.readthedocs.io/en/latest/iden3\_repos/research/publications/zkproof-standards-workshop-2/pedersen-hash/pedersen.html) (as it is friendlier with zk-SNARKs), then sends the token & the 20 MiMC hash to the smart contract. The contract will then insert it into the Merkle tree.
+引き出し処理を行うために、同じ領域のバイトを、片方の**secret**ともう片方の**nullifier**に分割する。ヌリファイはハッシュ化される。このヌリファイは、スマートコントラクト＆メルクルツリーデータと照合するために、オンチェーンに送信されるパブリックインプットである。例えば二重消費を回避することができる。
 
-To process a withdrawal, the same area of bytes is split into two separate parts: the **secret** on one side & the **nullifier** on the other side. The nullifier is hashed. This nullifier is a public input that is sent on-chain to be checked with the smart contract & the Merkle tree data. It avoids double-spending for instance.
+zk-SNARKにより、初期コミットメントとヌリファイアの20MiMCハッシュを、情報を一切開示することなく証明することが可能です。ヌリファイヤーが公開されていても、ハッシュ化されたヌリファイヤーとイニシャルコミットメントを結びつける方法がないため、プライバシーが維持されます。さらに、取引に関する情報がMerkleルートに存在する場合でも、正確なMerkleパスに関する情報、ひいては取引の場所は非公開に保たれる。
 
-Thanks to zk-SNARK, it is possible to prove the 20 MiMC hash of the initial commitment and of the nullifier without revealing any information. Even if the nullifier is public, privacy is sustained as there is no way to link the hashed nullifier to the initial commitment. Besides, even if the information about the transaction is present in the Merkle root, the information about the exact Merkle path, and subsequently the location of the transaction, is still kept private.
+入金は技術的には簡単ですが、20MiMCハッシュの計算とMerkle木の更新が必要なため、ガス代は高くなります。一方、出金処理は複雑ですが、ガスはヌリファイヤーハッシュとゼロ知識証明にのみ必要なため、安価に済みます。
 
-Deposits are simple from a technical point of view, but expensive in terms of gas as they need to compute the 20 MiMC hash & update the Merkle tree. On the other hand, the withdrawal process is complex but cheaper as gas is only needed for the nullifier hash and the zero-knowledge proof.
+*Written & updated by* [*@ayefda*](https://torn.community/u/ayefda)
 
-_Written & updated by_ [_@ayefda_](https://torn.community/u/ayefda)

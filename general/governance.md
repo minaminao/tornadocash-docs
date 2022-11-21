@@ -1,96 +1,97 @@
 # Governance
-
-The following governance rules apply to all Tornado Cash pools (including Tornado Cash Nova).
+以下のガバナンスルールは、すべての Tornado Cash プール（Tornado Cash Nova を含む）に適用されます。
 
 ### How to suggest a proposal ?
+Tornado.Cashのガバナンスに参加するためには、ユーザーはまずガバナンス契約にトークンをロックする必要があります。ユーザーが投票または提案を作成した場合、提案実行期間（提案作成から8.25日）が終了するまでは、トークンのロックを解除することができません。また、ロックされたトークンは、別のアドレスに委譲することができます。
 
-In order to participate in Tornado.Cash governance, users first need to lock tokens in the governance contract. If a user votes or creates a proposal, the tokens cannot be unlocked before the proposal execution period ends (8.25 days from proposal creation). The locked tokens can also be delegated to another address.
+プロポーザルを作成するには、ユーザーは最低でも`1,000 TORN`を持っている必要があります。すべての提案は、[governance contract ](https://etherscan.io/address/0x5efda50f22d34F262c29268506C5Fa42cB56A1Ce)(`delegatecall`を使用)から実行される検証済みのコードを持つスマートコントラクトでなければなりません。こうすることで、ガバナンスの変更を監査し、テストすることが容易になります。
 
-To create a proposal, a user needs to have at least `1,000 TORN`. All proposals must be smart contracts with verified code that are executed from the [governance contract ](https://etherscan.io/address/0x5efda50f22d34F262c29268506C5Fa42cB56A1Ce)(using `delegatecall`). This way, it’s easy to audit and test any governance changes.
+提案の投票期間は5日間です。提案は、単純多数決で総投票数が`25,000 TORN`票以上あれば成功します（投票数が少なすぎる場合、提案は自動的に失敗します）。
 
-The voting period for a proposal is 5 days. A proposal will succeed if it receives a simple majority of votes and there are at least `25,000 TORN` total votes (if turnout is too low, the proposal automatically fails).
+提案に成功すると、2日間のタイムロックがかかります。タイムロック後は、誰でもその提案を実行することができます（変更を開始することができます）。その後、3日間実行されないと、その提案は*expired*とみなされ、実行できなくなります。
 
-After a proposal succeeds, it is subject for a timelock of 2 days. After the timelock, any user is able to execute the proposal (which initiates the changes). If proposal is not executed for 3 days after that, it is considered _expired_ and can no longer be executed.
+これらの初期パラメータはすべて、初期には多くのTORNトークンが流通しないため、比較的小さいものです。しかし、流通する供給量が増えるにつれて、ガバナンスはこれらの閾値を調整する可能性があります。
 
-All of these initial parameters are relatively small, since there won’t be many TORN tokens in circulation early on. But as the circulating supply increases, governance may adjust these thresholds.
+提案の内容は以下の通りです。
 
-A proposal can be of the following nature:
+* プロキシに新しいTornado Cashプールを追加する
 
-* Adding a new Tornado Cash pool in the proxy
-* Changing the AP reward rates parameters
-* Unpause/Pause the TORN token
-* Change some core mining contracts such as the `TornadoTrees` contract
-* A combination of all of the above
+* APリワードのレートパラメーターの変更
 
-And many more can be done. To find out exactly what can be changed through governance in the protocol, look for the functions with the modifier `onlyGovernance` in the smart contracts.
+* TORNトークンの一時停止解除/一時停止
 
-The governance functions are represented by a red arrow in [this architecture diagram.](https://viewer.diagrams.net/?highlight=0000ff\&edit=\_blank\&layers=1\&nav=1\&title=tornado-cash-contract-overview.drawio#Uhttps%3A%2F%2Fraw.githubusercontent.com%2FRezan-vm%2Ftornado-cash-edu%2Fmain%2Ftornado-cash-contract-overview.drawio)
+* `TornadoTrees`コントラクトなど、一部のコアマイニングコントラクトの変更
 
-NOTE: Parts of this article was taken from [this medium post.](https://tornado-cash.medium.com/tornado-cash-governance-proposal-a55c5c7d0703) Credits goes to the Tornado cash team.
+* 上記すべての組み合わせ
+
+その他にも多くのことが可能です。プロトコルのガバナンスによって何が変えられるかを正確に知るには、スマートコントラクトの中で`onlyGovernance`という修飾子を持つ関数を探せばいい。
+
+ガバナンス機能は、[this architecture diagram.](https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=tornado-cash-contract-overview.drawio#Uhttps%3A%2F%2Fraw.githubusercontent.com%2FRezan-vm%2Ftornado-cash-edu%2Fmain%2Ftornado-cash-contract-overview.drawio)の赤い矢印で表されている
+
+注：この記事の一部は[this medium post.](https://tornado-cash.medium.com/tornado-cash-governance-proposal-a55c5c7d0703)から引用しています。
 
 ### How to vote ?
+まず、TORNトークンをガバナンスコントラクトに預ける（ロックする）必要があります。
 
-You first need to deposit (or lock) TORN tokens into the governance contract.
+に行ってください。[https://tornadocash.eth.link/governance](https://tornadocash.eth.link/governance)
 
-Go to: [https://tornadocash.eth.link/governance](https://tornadocash.eth.link/governance)
+`Manage`→`Lock Tab`をクリック
 
-Click `Manage` -> `Lock Tab`
-
-Approve the governance contract to transfer your TORN tokens by clicking on the `Approve` button. Once the approve is confirmed, chose the amount you want to deposit and click `Lock`. Confirm the transaction in your wallet and wait for the confirmation.
+`Approve`ボタンをクリックして、TORNトークンを送金するためのガバナンス契約を承認してください。承認が確認されたら、入金する金額を選んで`Lock`をクリックします。ウォレットで取引を確認し、確認を待ちます。
 
 ![](<../.gitbook/assets/c05e5a1813edad280544b627b24002dc8d5adcf2 (1).png>)
 
-Before the vote, the next crucial step is to review the proposal.\
-Legitimate proposals should have a dedicated post on [Torn.community ](https://torn.community)under the category “Proposal”. The forum post will provide additional context and arguments on the proposal. Read the thread and make your own mind on the issue.
+投票の前に、次の重要なステップは、提案を確認することです。
+正当な提案は、[Torn.community ](https://torn.community) の「提案」カテゴリに専用の投稿をする必要があります。フォーラムの投稿は、その提案に関する追加の文脈と議論を提供します。そのスレッドを読んで、その問題について自分自身の考えをまとめてください。
 
-Once a proposal was submitted it should appear on:\
-[https://tornadocash.eth.link/governance](https://tornadocash.eth.link/governance)\
-Proposal are implemented in the form of a smart contract making changes to the system. It is therefore important to verify the address of the smart-contract and review its code. Find the address of the proposal contract here:
+一度提出されたプロポーザルは、上に表示されるはずです。
+[https://tornadocash.eth.link/governance](https://tornadocash.eth.link/governance)
+プロポーザルは、システムに変更を加えるスマートコントラクトという形で実装されます。したがって、スマートコントラクトのアドレスを確認し、そのコードを確認することが重要です。プロポーザル契約のアドレスはこちらでご確認ください。
 
 ![](../.gitbook/assets/181d612b6c57964bab59c8e5b766f5247211083d.png)
 
-Look for the contract address on Etherscan and make sure that the source code is verified and readable.
+Etherscanでコントラクトアドレスを探し、ソースコードが検証され、読み取れることを確認する。
 
 ![](../.gitbook/assets/d2d37d169a94f09156e76fa522b7974cb7c9ac3f.png)
 
-Read the source code and make sure that it matches what is described in the forum post.
+ソースコードを読み、フォーラムの投稿に記載されている内容と一致していることを確認してください。
 
-If you are not technical or not comfortable to read Solidity code, get someone you trust to review the contract for you.
+技術的な知識がない、または Solidity のコードを読むのに抵抗がある場合は、信頼できる人に契約書を確認してもらいましょう。
 
-If you agree (or disagree) with the proposal code, it time to vote!
+プロポーザルコードに賛成（または反対）なら、投票の時間です。
 
-A proposal have a voting windows of 5 days. This means that we have 5 days to reach the vote quorum of 25k TORN.
+提案には5日間の投票期間があります。つまり、投票定足数である25k TORNに達するまで5日間あります。
 
-Important: Once you voted, your tokens will be locked for 8.25 days from the moment the proposal was submitted (the start of the 5 days voting period). After the 8.25 you can withdraw your tokens from the governance contract. Note that you can vote on 2 proposal at the same time without incurring additional lockup period (Only the most recently submitted proposal will matter for the 8.25 lockup).
+重要投票すると、提案が提出された時点（5日間の投票期間の開始）から8.25日間、あなたのトークンはロックされます。8.25日を過ぎると、ガバナンス契約からトークンを引き出すことができます。なお、同時に2つの提案に投票してもロック期間は延長されません（8.25日のロック期間中は直近に提出された提案のみが問題となります）。
 
-To vote, simply click on the Green check mark or the the red cross depending whether you accept or reject the proposal. Confirm the transaction with Metamask and your vote is in!
+投票するには、緑色のチェックマークか赤い十字をクリックするだけです。メタマスクで取引内容を確認し、投票完了です。
 
 ### How to delegate the vote ?
+トルントークンホルダーであれば、トークンを送ることなく、議決権を他人に委任することができます。
 
-If you are a TORN token holder, you can delegate your voting power to someone else without having to send him the tokens.
+重要：トークンを委任し、委任者が投票または提案を開始した場合、委任者が投票した提案が始まった時点から8.25日間、トークンがロックされます。なお、委任はいつでも解除することができます。
 
-IMPORTANT: If you delegate your tokens and that your delegate votes or initiate a proposal, your tokens will be locked for 8.25 days from the moment the proposal that the delegate voted on started. Note that that you can always undelegate at any time.
+デレゲーション実現のために、行ってください。[https://tornadocash.eth.link/governance](https://tornadocash.eth.link/governance)
 
-To achieve delegation, go to: [https://tornadocash.eth.link/governance](https://tornadocash.eth.link/governance)
+まず、トークンをガバナンスコントラクトにロックする必要があります。**`Manage`**→**`Lock`**タブをクリック
 
-You first need to lock your tokens in the governance contract. Click **`Manage`** -> **`Lock`** tab
-
-Approve the governance contract to transfer your TORN tokens by clicking on the **`Approve`** button. Once the approve is confirmed, chose the amount you want to delegate and click **`Lock`**. Confirm the transaction in your wallet and wait for the confirmation.
+**`Approve`**ボタンをクリックして、TORNトークンを譲渡するためのガバナンス契約を承認してください。承認が確認できたら、委任したい金額を選び、**`Lock`**をクリックします。ウォレットでトランザクションを確認し、確認を待ちます。
 
 ![](../.gitbook/assets/c05e5a1813edad280544b627b24002dc8d5adcf2.png)
 
-The last step, is to make the actual delegation. Go again to [https://tornadocash.eth.link/governance](https://tornadocash.eth.link/governance)
+最後のステップ、それは実際の委任を行うことです。再び[https://tornadocash.eth.link/governance](https://tornadocash.eth.link/governance)へ
 
-Click **`Manage`** -> **`Delegate`** tab
+**`Manage`**」→「**`Delegate`**」タブをクリック
 
-Fill-in the address to which you want to delegate and click **`Delegate`**. Approve the transaction in your wallet and wait for confirmation.
+委任するアドレスを記入し、**`Delegate`**をクリックします。ウォレットで取引を承認し、確認を待ちます。
 
 ![](../.gitbook/assets/43c05d176d7f75a336af7a865565c9b23786b98c.png)
 
-The totality of your locked balance will be delegated.
+ロックされた残高の総量が委譲されます。
 
-You can undelegate at anytime. To undelegate simply use the `Undelegate` Button in `Manage` -> `Undelegate` Tab.
+いつでも委任を解除することができます。`Manage`→`Undelegate`タブの`Undelegate`ボタンを押すだけで、委任を解除することができます。
 
-_Written by_ [_@rezan_](https://torn.community/u/Rezan/summary)
+*Written by* [*@rezan*](https://torn.community/u/Rezan/summary)
 
-_Updated by_ [_@bt11ba_](https://torn.community/u/bt11ba/)
+*Updated by* [*@bt11ba*](https://torn.community/u/bt11ba/)
+

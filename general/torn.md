@@ -1,42 +1,41 @@
 # TORN
-
 ## Token
-
-TORN is an ERC20-compatible token with a fixed supply that governs [Tornado.Cash](https://tornado.cash). TORN holders can make proposals and vote to change the protocol via governance.
+TORNは、[Tornado.Cash](https://tornado.cash)を統治する固定供給量のERC20互換トークンです。TORNの保有者は、ガバナンスを通じてプロトコルを変更するための提案と投票を行うことができます。
 
 **TORN is not a fundraising device or investment opportunity.**
 
 **Here’s how the initial distribution of TORN would break down:**
 
-* **5% (500,000 TORN):** Airdrop to early users of [Tornado.Cash](https://tornado.cash) ETH pools
-* **10% (1,000,000 TORN):** Anonymity mining for [Tornado.Cash](https://tornado.cash) ETH pools, distributed linearly over 1 year
-* **55% (5,500,000 TORN):** DAO treasury, will be unlocked linearly over 5 years with 3 month cliff
-* **30% (3,000,000 TORN):** Founding developers and early supporters, will be unlocked linearly over 3 years with 1 year cliff
+* **5% (500,000 TORN):** [Tornado.Cash](https://tornado.cash)のETHプールの初期ユーザーへのエアドロップ
+
+* **10% (1,000,000 TORN):** [Tornado.Cash](https://tornado.cash) ETHプールの匿名マイニング、1年間で線形に分配される
+
+* **55% (5,500,000 TORN):** DAO treasury、3ヶ月のクリフで5年間リニアにアンロックされます。
+
+* **30% (3,000,000 TORN):** ファウンディング・ディベロッパーとアーリーサポーターは、1年間のクリフを経て、3年間リニアにアンロックされる予定です。
 
 ![](../.gitbook/assets/1-bjggju1rn4\_qoxgcljfneq.png)
 
 ![](../.gitbook/assets/1-gmc0jw8zr5xfvrk5zyqmya.png)
 
 ## Airdrop <a href="#f04d" id="f04d"></a>
+[Tornado.Cash](https://tornado.cash)を初期から信じてきたユーザーは、プロトコルの運営に口を出すべきです。このため、プロトコルのアーリーアダプターには、TORNがエアドロップされました。
 
-Users who have believed in [Tornado.Cash](https://tornado.cash) from early on should have a say in governing the protocol. For this reason, early adopters of the protocol did receive an airdrop of TORN.
+ブロック`11400000`以前に[Tornado.Cash](https://tornado.cash)のETHプールに入金した[all addresses](https://github.com/tornadocash/airdrop/blob/master/airdrop.csv)にTORNがエアドロされました。TORNは譲渡不可のTORNバウチャー（vTORN）の形でエアドロップされ、2020年12月18日から2021年12月18日までの1年以内にTORNと1対1で交換することが可能です。償還されなかったTORNは、1年後にガバナンス契約に振り込まれ、DAO Treasuryの一部となります。償還されたTORNはすぐに利用できるようになります。
 
-TORN has been airdropped to [all addresses](https://github.com/tornadocash/airdrop/blob/master/airdrop.csv) that made deposits into [Tornado.Cash](https://tornado.cash) ETH pools before block `11400000`. TORN were airdropped in the form of a non-transferable TORN voucher (vTORN) that can be redeemed 1:1 to TORN within 1 year, from December 18, 2020, to December 18, 2021. TORN that aren’t redeemed will be swept into the governance contract after 1 year and become part of the DAO Treasury. Redeemed TORN will be available immediately.
-
-The airdropped amount depends on users’ deposit size and age — larger deposits and older deposits will receive more TORN. Multipliers for deposit size are logarithmic:
+エアドロップされる金額は、ユーザーの預金額と年齢によって異なり、預金額が大きく、年齢が高いほど、より多くのTORNを受け取ることができます。入金額に対する倍率は対数で表示されます。
 
 ![](../.gitbook/assets/1-ogfrad8p3gez14zh4jndiq-2x.png)
 
+つまり、100ETHの預金は、1ETHの預金の2倍のトークンを得ることができます。この倍率によって、[Tornado.Cash](https://tornado.cash)の大口ユーザーと小口ユーザーの両方が、ガバナンスに対する発言権を持つことができます。
 
-
-So a 100 ETH deposit get twice as many tokens as a 1 ETH deposit. The multiplier allows large and small users of [Tornado.Cash](https://tornado.cash) to both have a say in governance.
-
-The exact curve for the time multiplier looks like this:
+時間倍率の正確な曲線は次のようになる。
 
 ![](../.gitbook/assets/1-bje88nlnkbe29-zcs5agkw-2x.png)
 
-The exact airdrop formula is the following:
+正確なエアドロップの計算式は以下の通りです。
 
 ![](../.gitbook/assets/1-megm4amqrrkx0qxva9iska-2x.png)
 
-_Written by_ [_**Tornado Team**_](https://tornado-cash.medium.com/tornado-cash-governance-proposal-a55c5c7d0703)
+*Written by* [***Tornado Team***](https://tornado-cash.medium.com/tornado-cash-governance-proposal-a55c5c7d0703)
+

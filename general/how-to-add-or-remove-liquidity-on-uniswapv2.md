@@ -1,63 +1,56 @@
 # How to add or remove liquidity on Uniswap v2
-
-In this tutorial we will see how to add and remove liquidity on Uniswap v2 TORN/ETH pair.
+このチュートリアルでは、Uniswap v2 TORN/ETHペアで流動性を追加・削除する方法を紹介します。
 
 1. [Add liquidity](how-to-add-or-remove-liquidity-on-uniswapv2.md#add-liquidity)
+
 2. [Remove liquidity](how-to-add-or-remove-liquidity-on-uniswapv2.md#remove-liquidity)
 
 ### 1. Add liquidity
+1. そこに行く。[https://app.uniswap.org/#/add/v2/ETH?chain=mainnet](https://app.uniswap.org/#/add/v2/ETH?chain=mainnet)
 
-1. Go there: [https://app.uniswap.org/#/add/v2/ETH?chain=mainnet](https://app.uniswap.org/#/add/v2/ETH?chain=mainnet)
-2. Add the TORN and ETH pair
+2. TORNとETHのペアを追加
 
 ![](<../.gitbook/assets/1 (3).png>)
 
-3\. Click on Manage
+3\.Manageをクリック
 
 ![](../.gitbook/assets/2.png)
 
-4\. Click on Add
+4\.Addをクリック
 
 ![](<../.gitbook/assets/3 (2).png>)
 
-5\. Choose an amount to add and click on Supply
+5\.追加する金額を選択し、Supplyをクリックします。
 
 ![](../.gitbook/assets/1add.png)
 
-6\. Click on confirm
+6\.confirmをクリック
 
 ![](../.gitbook/assets/2add.png)
 
-
-
 ### 2. Remove liquidity
+1. そこに行く。[https://app.uniswap.org/#/add/v2/ETH?chain=mainnet](https://app.uniswap.org/#/add/v2/ETH?chain=mainnet)
 
-1. Go there: [https://app.uniswap.org/#/add/v2/ETH?chain=mainnet](https://app.uniswap.org/#/add/v2/ETH?chain=mainnet)
-2. Add the TORN and ETH pair
+2. TORNとETHのペアを追加
 
 ![](<../.gitbook/assets/1 (2).png>)
 
-3\. Click on Manage
+3\.Manageをクリック
 
 ![](<../.gitbook/assets/2 (2).png>)
 
-4\. Click on Remove
+4\.Removeをクリック
 
 ![](<../.gitbook/assets/3 (1).png>)
 
-5\. Choose the percentage you wish to withdraw
+5\.出金する割合を選択する
 
 ### ![](../.gitbook/assets/4remove.png)
-
-5\. Click on confirm
+5\.confirmをクリック
 
 ![](../.gitbook/assets/5remove.png)
 
+で、終わり！ :tada:
 
-
-And that's it! :tada:
-
-
-
-_Written by_ [_**@bt11ba**_](https://torn.community/u/bt11ba/)
+*Written by* [***@bt11ba***](https://torn.community/u/bt11ba/)
 
