@@ -1,49 +1,47 @@
 # Introduction to Tornado Cash
+
 ![](.gitbook/assets/image.png)
 
-Tornado Cash は、暗号空間での私的な取引を可能にする **fully decentralized** **non-custodial** **protocol** です。
+Tornado Cash は暗号空間でプライベートトランザクションを可能にする**完全に分散化された****ノンカストディアルの****プロトコル**です。
 
-分散型プロトコルであるTornado.Cashのスマートコントラクトは、Ethereumブロックチェーン内に実装されているため、不変のものとなっています。それらは変更も改ざんもできない。したがって、オリジナルの開発者を含め、誰もそれを変更したり停止したりすることはできません。すべてのガバナンスとマイニングのスマートコントラクトは、コミュニティによって分散的に展開されます。
+分散型プロトコルであるTornado.Cashのスマートコントラクトは、Ethereumブロックチェーン内に実装されているため、イミュータブルなものとなっています。それらは変更も改竄もできません。したがって、オリジナルの開発者を含め誰もそれを変更したり停止したりすることはできません。すべてのガバナンスとマイニングのスマートコントラクトは、コミュニティによって分散的にデプロイされています。
 
-非保護プロトコルとして、ユーザーはTornado.Cashを操作している間、彼らの暗号通貨の保管を維持します。これは、各預金において、入金された資金へのアクセスを可能にする秘密鍵が提供されることを意味し、これによりユーザーは自分の資産を完全に管理することができます。
+ノンカストディアルのプロトコルとして、ユーザーはTornado.Cashを操作している間、自分の暗号通貨のカストディを維持します。これは、各デポジットにおいて、デポジットされた資金へのアクセスを可能にする秘密鍵が提供されることを意味し、これによりユーザーは自分の資産を完全に管理することができます。
 
 ## How is privacy achieved?
-Tornado Cashは、送信元アドレスと送信先アドレスの間のオンチェーンリンクを解除することで、取引のプライバシーを向上させます。これは、あるアドレスからETHと他のトークンの預金を受け入れ、別のアドレスからその預金を引き出すことを可能にするスマートコントラクトを使用しています。
 
-プライバシーを最大限に守るため、ガス料金の支払いには、あらかじめ残高のないアドレスから資金を引き出すための中継器を使用するなど、いくつかのステップを踏むことが推奨されます。
+Tornado Cashは、送信元アドレスと送信先アドレスの間のオンチェーンリンクを解除することで、トランザクションのプライバシーを向上させます。これは、あるアドレスからETHと他のトークンのデポジットを受け入れ、別のアドレスからそのデポジットを引き出すことを可能にするスマートコントラクトを使用しています。
+
+プライバシーを最大限に守るため、ガス料金の支払いには、あらかじめ残高のないアドレスから資金を引き出すためのリレイヤーを使用するなど、いくつかのステップを踏むことが推奨されます。
 
 詳細は*Behind the scenes:* [*How does Tornado.Cash work?*](general/how-does-tornado.cash-work.md) & [Tips to remain anonymous](general/tips-to-remain-anonymous.md)に掲載されています。
 
 ## Where does Tornado.cash operate?
-2019年の創業以来、トルネードキャッシュは**on the Ethereum blockchain**を運用してきました。このプロトコルは、イーサリアムのブロックチェーンで扱われる6つのトークン（ETH、DAI、cDAI、USDC、USDT＆WBTC）に対して、多様な定額プールを提供してきました。
 
-2021年6月以降、イーサリアムブロックチェーンに加え、トルネードキャッシュのスマートコントラクト**have also been deployed on other side-chains & blockchains**.これらの展開により、このツールは新しいトークンをサポートするか、より高速で安価な取引といったレイヤー2の利点を享受することができるようになりました。
+2019年の誕生以来、Tornado Cashは**Ethereumブロックチェーンで**運用されています。このプロトコルは、Ethereumのブロックチェーンで扱われる6つのトークン（ETH、DAI、cDAI、USDC、USDT、WBTC）に対して、多様な定額プールを提供してきました。
 
-今日現在、トルネード・キャッシュは、次のように運用されています。
+2021年6月以降、Ethereumブロックチェーンに加え、Tornado Cashのスマートコントラクトは**他のサイドチェーン＆ブロックチェーンにもデプロイされています**。これらのデプロイにより、このツールは新しいトークンをサポートするか、より高速で安価な取引といったレイヤー2の利点を享受することができるようになりました。
 
-* **Ethereum Blockchain** : **ETH**（イーサリアム）、**DAI**（ダイ）、**cDAI**（コンパウンドダイ）、**USDC**（米ドルコイン）、**USDT**（テザー）＆**WBTC**（ラップドビットコイン）です。
+今日現在、Tornado Cashは、次のように運用されています。
 
-* **Binance Smart Chain**：**BNB**（バイナンスコイン）。
+* **Ethereum Blockchain** : **ETH** (Ethereum)、**DAI** (Dai)、**cDAI** (Compound Dai)、**USDC** (USD Coin)、**USDT** (Tether) **WBTC** (Wrapped Bitcoin)
+* **Binance Smart Chain**：**BNB** (Binance Coin)
+* **Polygon Network**：**MATIC** (Polygon)
 
-* **Polygon Network**：**MATIC**（ポリゴン）。
-
-* **Gnosis Chain (former xDAI Chain)**：**xDAI**（xDai）．
-
-* **Avalanche Mainnet**：**AVAX**（アバランチ）。
-
-* **ETH**（Ethereum）のLayer-2として、**Optimism**。
-
-* **Arbitrum One**、Layer-2の**ETH**（Ethereum）として。
+* **Gnosis Chain (former xDAI Chain)**：**xDAI** (xDai)
+* **Avalanche Mainnet**：**AVAX** (Avalanche)
+* **ETH** (Ethereum) のLayer-2として、**Optimism**
+* **ETH** (Ethereum) のLayer-2として、**Arbitrum One**
 
 ![](.gitbook/assets/logos.png)
 
-2021年12月まで、このプロトコルには、これらのトークンの一部に対する匿名マイニングシステムが含まれており、そのユーザーはガバナンストークン（**TORN**）を獲得することができました。ユーザーは最終的にETH、DAI、cDAI＆WBTCのプールに入金することで、ブロックチェーンネットワーク上でTORNを獲得することができたのです。
+2021年12月まで、このプロトコルには、これらのトークンの一部に対する匿名マイニングシステムが含まれており、そのユーザーはガバナンストークン（**TORN**）を獲得することができました。ユーザーは最終的にETH、DAI、cDAI、WBTCのプールにデポジットすることで、ブロックチェーンネットワーク上でTORNを獲得することができたのです。
 
 *More information on* [*Anonymity mining*](tornado-cash-classic/anonymity-mining.md) *&* [*Tornado.Cash token*](general/torn.md)は*available.*です。
 
-**Thanks to the TORN token, Tornado Cash users can actively participate in shaping the protocol**.コミュニティは、Tornado Cashの進化とその機能の改善に関して強いウェイトを占めています。実際、プロトコルのパラメータとトークンの配布は、このガバナンスを通じて完全にコミュニティの管理下にあります。
+**TORNトークンのおかげで、Tornado Cashユーザーはプロトコルの形成に積極的に参加することができます。** コミュニティはTornado Cashの進化とその機能の改善に関して強いウェイトを占めています。実際、プロトコルのパラメータとトークンの配布は、このガバナンスを通じて完全にコミュニティの管理下にあります。
 
-上記のすべてのプールは、[tornadocash.eth.link](https://tornadocash.eth.link)でアクセスできます。それらは**under the principle of fixed-amount deposits & withdrawals**を操作する。各トークンが2～4種類のプールを持ち、2～4種類の固定金額*(e.g. ETH has four different pools, one for each of these amounts: 0.1, 1, 10 & 100 ETH)*のみの取引を可能にするということです。
+上記のすべてのプールは、[tornadocash.eth.link](https://tornadocash.eth.link)でアクセスできます。それらは**定額デポジット・定額引き出しの原則で**を操作する。各トークンが2～4種類のプールを持ち、2～4種類の固定金額*（例えば、ETHには4種類のプールがあり、それぞれの金額に応じて1つずつあります。0.1、1、10、100ETH）*のみのトランザクションを可能にするということです。
 
 ### Tornado Cash Nova
 [**release of Tornado Cash Nova** (beta version) on December 2021](https://tornado-cash.medium.com/tornado-cash-introduces-arbitrary-amounts-shielded-transfers-8df92d93c37c)に伴い、**upgraded pool with unique new features**がプロトコルに追加されました。ユーザーは、もはや固定額取引に縛られることはありません。トルネード・キャッシュ・ノヴァの追加により、**an arbitrary amount pool & shielded transfers**の使用による恩恵を受けることができる。
