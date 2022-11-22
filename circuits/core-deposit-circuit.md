@@ -4,7 +4,7 @@
 
 ## デポジットの作成
 
-Tornado Cashへのデポジットはとてもシンプルな操作で、実際にはZKの証明は必要ありません。少なくともまだ必要ありません。デポジットを行うには、[Tornadoコントラクト](https://github.com/tornadocash/tornado-core/blob/master/contracts/Tornado.sol)インスタンスの`deposit`メソッドを呼び出し、デポジットする資産額とともに[Pedersenコミットメント](https://crypto.stackexchange.com/questions/64437/what-is-a-pedersen-commitment)を与えます。このコミットメントは専用の[Merkleツリー](https://en.wikipedia.org/wiki/Merkle_tree)に挿入されます。このMerkleツリーの構造は、BN128楕円曲線のオーダーの素数に関連する楕円曲線に合わせられ、ツリーのラベルはMiMCハッシュで計算されます。
+Tornado Cashへのデポジットはとてもシンプルな操作で、実際にはZKの証明は必要ありません。少なくともまだ必要ありません。デポジットを行うには、[Tornadoコントラクト](https://github.com/tornadocash/tornado-core/blob/master/contracts/Tornado.sol)インスタンスの`deposit`メソッドを呼び出し、デポジットする資産額とともに[Pedersenコミットメント](https://crypto.stackexchange.com/questions/64437/what-is-a-pedersen-commitment)を与えます。このコミットメントは専用の[Merkleツリー](https://en.wikipedia.org/wiki/Merkle_tree)に挿入されます。このMerkleツリーの構造は、BN128楕円曲線のオーダーの素数に関連する楕円曲線に合わせられており、ツリーのラベルはMiMCハッシュで計算されます。
 
 ### コミットメントスキーム
 
@@ -14,17 +14,17 @@ Tornado Cashへのデポジットはとてもシンプルな操作で、実際�
 
 ### Pedersenハッシュ
 
-[Pedersenハッシュ](https://iden3-docs.readthedocs.io/en/latest/iden3_repos/research/publications/zkproof-standards-workshop-2/pedersen-hash/pedersen.html)は極めて特殊なハッシュ関数で、特にゼロ知識証明回路を活用したアプリケーションに適しています。SHA-256のような他のハッシュ関数が、わずかな入力の違いでも非常に異なる出力を生成するような性質（[アバランチ効果](https://en.wikipedia.org/wiki/Avalanche_effect)）を持つように設計されているのに対し、Pedersenハッシュはゼロ知識証明回路において非常に効率的にハッシュを計算できることを優先しています。
+[Pedersenハッシュ](https://iden3-docs.readthedocs.io/en/latest/iden3_repos/research/publications/zkproof-standards-workshop-2/pedersen-hash/pedersen.html)は極めて特殊なハッシュ関数で、特にゼロ知識証明回路を活用したアプリケーションに適しています。SHA-256のような他のハッシュ関数が、わずかな入力の違いでも全く異なる出力を生成するような性質（[アバランチ効果](https://en.wikipedia.org/wiki/Avalanche_effect)）を持つように設計されているのに対し、Pedersenハッシュはゼロ知識証明回路において非常に効率的にハッシュを計算できることを優先しています。
 
 Pedersenでメッセージをハッシュ化すると、メッセージのビットが[Baby Jubjub](https://github.com/barryWhiteHat/baby_jubjub)という[楕円曲線](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)に沿った点まで圧縮されます。Baby Jubjubは、[EIP-196](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-196.md)で追加されたEthereumネットワーク上のプリコンパイルされた関数でサポートされているBN128楕円曲線のオーダーにあります。つまり、PedersenハッシュのようなBaby Jubjub曲線を利用した演算はガス効率が高いのです。
 
-メッセージのPedersenハッシュを計算するとき、その楕円曲線に沿った結果のポイントは、検証には非常に効率的ですが、元のメッセージに逆戻りさせることは不可能です。
+メッセージのPedersenハッシュを計算するとき、その楕円曲線に沿った結果のポイントは、検証には非常に効率的ですが、元のメッセージを逆算することは不可能です。
 
 ### Tornadoコミットメント
 
 Tornado Cashのデポジットに対するコミットメントを生成するために、まずそれぞれ31バイト長の2つの大きなランダムな整数を生成します。最初の値は、後でデポジットを引き出すために開示するnullifierであり、2番目の値はデポジットと引き出しの間の機密関係を確保するためのシークレットです。
 
-デポジットノートのプリイメージはこれら2つの値(`nullifier` + `secret`)を連結したものであり、長さ62バイトのメッセージとなります。このメッセージがPedersenハッシュ化され、32バイトのビッグエンディアンの整数としてエンコードされたBaby Jubjub楕円曲線の要素となって出力されます。
+デポジットノートのプリイメージはこれら2つの値（`nullifier` + `secret`）を連結したものであり、長さ62バイトのメッセージとなります。このメッセージがPedersenハッシュ化され、32バイトのビッグエンディアンの整数としてエンコードされたBaby Jubjub楕円曲線の要素となって出力されます。
 
 これをコード形式で見たい場合は、[tornado-cliのデポジット関数](https://github.com/tornadocash/tornado-cli/blob/master/cli.js#L53-L112)を参照してください。
 
@@ -34,7 +34,7 @@ Tornado Cashのデポジットに対するコミットメントを生成する�
 
 Merkleツリーを知らない人のために説明すると、非リーフノードにはその子ノードのラベルのハッシュが、リーフノードにはそのデータのハッシュがラベル付けされている二分木です。通常、MerkleツリーはSHA-2などの一方向の暗号学的ハッシュ関数を用いますが、Tornado Cashではいくつかの有用な特性を持つMiMCを用いています。
 
-MiMCの有用な特性の1つは、素数体での動作に適していることです。これはゼロ知識証明は基本的に素数体に基づいており、PedersenハッシュはBaby Jubjub楕円曲線によって定義される素数体内の点である（EthereumでネイティブにサポートされるBN128曲線のオーダー内）から重要です。ゼロ知識証明は運用コストが高く、Ethereumトランザクションにおける各操作にはそれに応じたガスコストがかかるため、私たちが設計する特定の種類の操作は、可能な限りガス効率を高める必要があります。
+MiMCの有用な特性の1つは、素数体での動作に適していることです。これはゼロ知識証明は基本的に素数体に基づいており、PedersenハッシュはBaby Jubjub楕円曲線によって定義される素数体内の点である（EthereumでネイティブにサポートされるBN128曲線のオーダー内）ことから重要です。ゼロ知識証明は運用コストが高く、Ethereumトランザクションにおける各操作にはそれに応じたガスコストがかかるため、私たちが設計する特定の種類の操作は、可能な限りガス効率を高める必要があります。
 
 このほかMiMCの特に有用な特性として、「非並列化可能」「計算は難しいが検証は簡単」というものがあります。これらの特性により、Merkleツリーの中で衝突する経路を持つ偽造された「コミットメント」を計算することは計算上不可能になり、コントラクトの安全性が高められます。
 
@@ -48,7 +48,7 @@ Tornado Merkleツリーの初期化中に、`keccak256("tornado") % FIELD_SIZE`�
 
 TornadoコントラクトのMerkleツリーにコミットを挿入する場合、「ゼロリーフ」をPedersenコミットのMiMCハッシュをラベルとする新しいリーフに置き換え、さらにツリーをトラバースして、新しいリーフが下に紹介するラベル更新に基づいて新しいラベルを各その後の親ノードで更新することになります。
 
-コミットメントはツリー内で左から右へ挿入され、2つのコミットメントの挿入ごとに「サブツリー」が満たされる。各挿入は木の「インデックス」を増加させ、次のコミットメントがそのMerkleパスのエントリーの左側と右側のどちらに挿入されるかを決定します。
+コミットメントはツリー内で左から右へ挿入され、2つのコミットメントの挿入ごとに「サブツリー」が満たされます。各挿入は木の「インデックス」を増加させ、次のコミットメントがそのMerkleパスのエントリーの左側と右側のどちらに挿入されるかを決定します。
 
 デポジットによってツリーが更新されると、最上位のノードのラベルがツリーの新しい「ルート」になり、過去100個のルートのラベルを含むローリングヒストリーに追加され、後の出金処理に使用されます。
 
