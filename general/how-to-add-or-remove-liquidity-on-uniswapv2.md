@@ -12,19 +12,19 @@
 
 ![](<../.gitbook/assets/1 (3).png>)
 
-3\.Manageをクリック
+3\. Manageをクリック
 
 ![](../.gitbook/assets/2.png)
 
-4\.Addをクリック
+4\. Addをクリック
 
 ![](<../.gitbook/assets/3 (2).png>)
 
-5\.追加する金額を選択し、Supplyをクリックします。
+5\. 追加する金額を選択し、Supplyをクリックします。
 
 ![](../.gitbook/assets/1add.png)
 
-6\.confirmをクリック
+6\. confirmをクリック
 
 ![](../.gitbook/assets/2add.png)
 
@@ -35,18 +35,18 @@
 
 ![](<../.gitbook/assets/1 (2).png>)
 
-3\.Manageをクリック
+3\. Manageをクリック
 
 ![](<../.gitbook/assets/2 (2).png>)
 
-4\.Removeをクリック
+4\. Removeをクリック
 
 ![](<../.gitbook/assets/3 (1).png>)
 
-5\.出金する割合を選択する
+5\. 出金する割合を選択する
 
 ### ![](../.gitbook/assets/4remove.png)
-5\.confirmをクリック
+5\. confirmをクリック
 
 ![](../.gitbook/assets/5remove.png)
 
