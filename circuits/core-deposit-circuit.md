@@ -4,7 +4,7 @@
 
 ## デポジットの作成
 
-Tornado Cashへのデポジットはとてもシンプルな操作で、実際にはZKの証明は必要ありません。少なくともまだ必要ありません。デポジットを行うには、[Tornadoコントラクト](https://github.com/tornadocash/tornado-core/blob/master/contracts/Tornado.sol)インスタンスの`deposit`メソッドを呼び出し、デポジットする資産額とともに[Pedersenコミットメント](https://crypto.stackexchange.com/questions/64437/what-is-a-pedersen-commitment)を与えます。このコミットメントは専用の[Merkleツリー](https://en.wikipedia.org/wiki/Merkle_tree)に挿入されます。このMerkleツリーの構造は、BN128楕円曲線のオーダーの素数に関連する楕円曲線に合わせられており、ツリーのラベルはMiMCハッシュで計算されます。
+Tornado Cashへのデポジットはとてもシンプルな操作でゼロ知識証明は必要ありません。少なくともまだ必要ありません。デポジットを行うには、[Tornadoコントラクト](https://github.com/tornadocash/tornado-core/blob/master/contracts/Tornado.sol)インスタンスの`deposit`メソッドを呼び出し、デポジットする資産額とともに[Pedersenコミットメント](https://crypto.stackexchange.com/questions/64437/what-is-a-pedersen-commitment)を与えます。このコミットメントは専用の[Merkleツリー](https://en.wikipedia.org/wiki/Merkle_tree)に挿入されます。このMerkleツリーの構造は、BN128楕円曲線のオーダーの素数に関連する楕円曲線に合わせられており、ツリーのラベルはMiMCハッシュで計算されます。
 
 ### コミットメントスキーム
 
@@ -16,7 +16,7 @@ Tornado Cashへのデポジットはとてもシンプルな操作で、実際�
 
 [Pedersenハッシュ](https://iden3-docs.readthedocs.io/en/latest/iden3_repos/research/publications/zkproof-standards-workshop-2/pedersen-hash/pedersen.html)は極めて特殊なハッシュ関数で、特にゼロ知識証明回路を活用したアプリケーションに適しています。SHA-256のような他のハッシュ関数が、わずかな入力の違いでも全く異なる出力を生成するような性質（[アバランチ効果](https://en.wikipedia.org/wiki/Avalanche_effect)）を持つように設計されているのに対し、Pedersenハッシュはゼロ知識証明回路において非常に効率的にハッシュを計算できることを優先しています。
 
-Pedersenでメッセージをハッシュ化すると、メッセージのビットが[Baby Jubjub](https://github.com/barryWhiteHat/baby_jubjub)という[楕円曲線](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)に沿った点まで圧縮されます。Baby Jubjubは、[EIP-196](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-196.md)で追加されたEthereumネットワーク上のプリコンパイルされた関数でサポートされているBN128楕円曲線のオーダーにあります。つまり、PedersenハッシュのようなBaby Jubjub曲線を利用した演算はガス効率が高いのです。
+Pedersenでメッセージをハッシュ化すると、メッセージのビットが[Baby Jubjub](https://github.com/barryWhiteHat/baby_jubjub)という[楕円曲線](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)に沿った点まで圧縮されます。Baby Jubjubは、[EIP-196](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-196.md)で追加されたEthereumネットワーク上のプリコンパイルされた関数でサポートされているBN128楕円曲線の位数にあります。つまり、PedersenハッシュのようなBaby Jubjub曲線を利用した演算はガス効率が高いのです。
 
 メッセージのPedersenハッシュを計算するとき、その楕円曲線に沿った結果のポイントは、検証には非常に効率的ですが、元のメッセージを逆算することは不可能です。
 
