@@ -31,11 +31,11 @@ Tornado Cashの使い方を説明するチュートリアルに入る前に、�
 
 Tornado Cashは、Zero-Knowledge Succinct Non-Interactive Argument of Knowledge（zk-SNARKとも呼ばれる）を使用して、トランザクションを検証し許可しています。
 
-入金を処理するために、Tornado Cashはバイトのランダムな領域を生成し、[Pedersenハッシュ](https://iden3-docs.readthedocs.io/en/latest/iden3_repos/research/publications/zkproof-standards-workshop-2/pedersen-hash/pedersen.html)（zk-SNARKsフレンドリーであるため）を介してそれを計算し、次にトークンと20個のMiMCハッシュをスマートコントラクトに送ります。その後、コントラクトはそれをMerkleツリーに挿入すれます。
+入金を処理するために、Tornado Cashはバイトのランダムな領域を生成し、[Pedersenハッシュ](https://iden3-docs.readthedocs.io/en/latest/iden3_repos/research/publications/zkproof-standards-workshop-2/pedersen-hash/pedersen.html)（zk-SNARKsフレンドリーであるため）を介してそれを計算し、次にトークンと20個のMiMCハッシュをスマートコントラクトに送ります。その後、コントラクトはそれをMerkleツリーに挿入します。
 
 引き出し処理を行うために、同じ領域のバイトを片方の**シークレット**ともう片方の**nullifier**に分割する。nullifierはハッシュ化される。このnullifierは、スマートコントラクト＆Merkleツリーデータと照合するために、オンチェーンに送信されるパブリックインプットです。これによって、例えばdouble-spendingを回避することができるのです。
 
-zk-SNARKにより、初期コミットメントとnullifierの20個のMiMCハッシュを、情報を一切開示することなく証明することが可能です。nullifierが公開されていても、ハッシュ化されたnullifierとイニシャルコミットメントを結びつける方法がないため、プライバシーが維持されます。さらに、トランザクションに関する情報がMerkleルートに存在する場合でも、正確なMerkleパスに関する情報、ひいてはトランザクションの場所は非公開に保たれます。
+zk-SNARKにより、イニシャルコミットメントとnullifierの20個のMiMCハッシュを、情報を一切開示することなく証明することが可能です。たとえnullifierが公開されていても、ハッシュ化されたnullifierとイニシャルコミットメントを結びつける方法がないため、プライバシーが維持されます。さらに、トランザクションに関する情報がMerkleルートに存在する場合でも、正確なMerkleパスに関する情報、ひいてはトランザクションの場所は非公開に保たれます。
 
 入金は技術的には簡単ですが、20個のMiMCハッシュの計算とMerkleツリーの更新が必要なためガス代は高くなります。一方で出金処理は複雑ですが、ガスはnullifierハッシュとゼロ知識証明にのみ必要なため安く済みます。
 

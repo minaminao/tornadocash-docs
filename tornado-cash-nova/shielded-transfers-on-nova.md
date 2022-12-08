@@ -1,15 +1,15 @@
 # Shielded Transfers on Nova
+Tornado Cash Novaの特異性の1つは、シールド転送の導入である。プール内にとどまりながら、預けたトークンのシールド取引を可能にするものだ。
 
-One of the specificity of Tornado Cash Nova is the introduction of shielded transfers. It allows shielded transactions of deposited tokens while staying within the pool.
-
-So far, to transfer the custody of deposited funds, tokens needed to be withdrawn first. With Nova, you will be able to transfer a chosen amount of your shielded balance (not necessarily all of it) to another address without needing to withdraw them from the pool.
+これまでは、預けた資金の親権を移すには、まずトークンを引き出す必要がありました。Novaでは、プールから引き出す必要なく、遮蔽された残高の中から選択した金額（必ずしも全額ではない）を別のアドレスに移すことができるようになる。
 
 ![](https://i.imgur.com/cf99tOn.gif)
 
-These shielded transfers can be made to any address of your choice, as long as this address is shielded (i.e. already registered to Tornado Cash Nova pool).
+これらのシールドされた送金は、このアドレスがシールドされている（すなわち、トルネードキャッシュ・ノヴァ・プールに既に登録されている）限り、あなたの好きなアドレスに行うことができます。
 
-As a reminder, a shielded address is registered either through the `Set up account` action or alongside an initial deposit from a wallet address.
+注意点として、シールドアドレスは、`Set up account`アクションによって、またはウォレットアドレスからの最初の入金と同時に登録されます。
 
-We advise you to double-check the shielded address to which you transfer tokens as this action is irreversible.
+この行為は元に戻すことができないので、トークンを転送するシールドアドレスを再度確認することをお勧めします。
 
-_Written by_ [_@ayefda_](https://torn.community/u/ayefda)
+*Written by* [*@ayefda*](https://torn.community/u/ayefda)
+

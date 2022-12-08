@@ -55,7 +55,7 @@ Tornado Cash Nova（ベータ版）は、[nova.tornadocash.eth.link](https://nov
 
 [Tornado Cashの機能を実現するためのコード](https://github.com/tornadocash)（スマートコンタクト、回路＆ツールチェーンなど）は完全に**オープンソース**です。DAO (Decentralized Autonomous Organization)によって、Tornado Cashガバナンスとマイニングスマートコントラクトは、そのコミュニティによってデプロイされています。
 
-また、zk-SNARKを用いることで、情報を明らかにすることなく、その情報を所有していることを証明することができます。この技術の使用は**ZcashチームがEthereumコミュニティの協力を得て行ったオープンソースの研究**をベースにしています。zk-SNARKの初期鍵を設定するために、2020年5月にTornado Cash [ Trusted Setup Community](https://tornado-cash.medium.com/tornado-cash-trusted-setup-ceremony-b846e1e00be1)が誕生し、これには[1114人のコントリビューター](https://tornado-cash.medium.com/the-biggest-trusted-setup-ceremony-in-the-world-3c6ab9c8fffa)のアカウントが含まれています。このようにたくさんのコントリビューターがいるため、ゼロ知識証明を偽造してプロトコルを危険にさらすことは不可能です。
+また、zk-SNARKを用いることで、情報を明らかにすることなく、その情報を所有していることを証明することができます。この技術の使用は**ZcashチームがEthereumコミュニティの協力を得て行ったオープンソースの研究**をベースにしています。zk-SNARKの初期鍵を設定するために、2020年5月にTornado Cash [Trusted Setup Community](https://tornado-cash.medium.com/tornado-cash-trusted-setup-ceremony-b846e1e00be1)が誕生し、これには[1114人のコントリビューター](https://tornado-cash.medium.com/the-biggest-trusted-setup-ceremony-in-the-world-3c6ab9c8fffa)のアカウントが含まれています。このようにたくさんのコントリビューターがいるため、ゼロ知識証明を偽造してプロトコルを危険にさらすことは不可能です。
 
 ユーザーインターフェースは、コミュニティによって**IPFS** (InterPlanetary File System)上でホストされており、データ削除のリスクを最小限に抑えています。実際、少なくとも一人のユーザーがホスティングしている限り、インターフェースは動作します。
 

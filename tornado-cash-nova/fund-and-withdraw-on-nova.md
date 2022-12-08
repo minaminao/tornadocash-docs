@@ -1,77 +1,76 @@
 # Fund & Withdraw on Nova
+Tornado Cashは、送金元と送金先のアドレス間のオンチェーンリンクを破壊することで機能します。そのため、このプロトコルでは、あるアドレスからトークンをプールに預け入れ、別のアドレスから引き出す必要があります。
 
-Tornado Cash works by breaking the on-chain link between source & destination addresses. To do so, the protocol needs tokens to be deposited in a pool from one address, then to be withdrawn through another address.
+この原則は、トルネード・キャッシュ・ノヴァでも変わりません。従来の定額制プールと同様に、この2つの動作はツールの効率性の核となるものである。
 
-This principle remains the same for Tornado Cash Nova. As for traditional fixed amount pools, these two actions are core to the efficiency of the tool:
+* 資金調達」のプロセス。
 
-* The “Funding” process,
-* The “Withdrawing” process.
+* 撤退」すること。
 
 ## Funding Process <a href="#funding-process" id="funding-process"></a>
+従来のTornadoキャッシュプールと比べ、**deposited amounts are no longer predefined.**ユーザーはウォレット残高の範囲内でカスタマイズされた金額を選択することができるのが大きな特徴です。
 
-The great novelty compared to traditional Tornado Cash pools is that **deposited amounts are no longer predefined.** Users can choose a customized amount within the capacity of their wallet balance.
-
-Therefore, if you want to put 0.4 ETH in the pool, you can do it all at once rather than making four separate transactions with the traditional 0.1 ETH pool.
+したがって、0.4ETHをプールに入れたい場合、従来の0.1ETHプールで4回に分けて取引するのではなく、一度にまとめて取引することができます。
 
 ![](https://i.imgur.com/rqmzdgG.gif)
 
 ### How Does It Work? <a href="#how-does-it-work" id="how-does-it-work"></a>
-
 #### **The First Deposit 💰**
+* まず、メタマスクアカウントからトルネードキャッシュノヴァにログインします。
 
-* The first step is to log in Tornado Cash Nova through a Metamask account.
-* Your account is not set yet (button `Set up account` available on the top right corner). To set up your account, you can either:
-  * **Click on `Set up account`**: your logged-in address will be registered to Nova without needing to deposit any tokens. This action will enable you to receive transfers or deposits within the pool from any another address.
-  * **Choose your logged-in address as a recepient address**: by depositing tokens into the pool, your account (with its shielded address & shielded key) will be automatically created. The deposited funds will come top up your shielded balance.
-  * **Choose another registered address:** tokens will be added to the shielded balance of the chosen recipient address. This recipient address needs to be a shielded address that was formerly registered to the pool.
+* あなたのアカウントはまだ設定されていません（右上のボタン`Set up account`が利用可能です）。アカウントを設定するには、次のいずれかの方法があります。
 
-When you log in, the `Recipient address` is filled by default with your logged-in address. You can change it depending on how you want to use the tool.
+  * **Click on `Set up account`**：ログインしたアドレスは、トークンを預けることなく、ノヴァに登録されます。このアクションにより、他のアドレスからプール内の送金や預金を受け取ることができるようになります。
 
-If you set a new account, you will be able to log into the pool later, check your Tornado shielded balance or receive shielded transfers by using either your shielded address or shielded key.
+  * **Choose your logged-in address as a recepient address**: トークンをプールに預けることで、あなたのアカウント（シールドされたアドレスとシールドされたキー）が自動的に作成されます。入金された資金は、あなたのシールドされた残高に補充されます。
 
-_All information about how to use these elements to log in or where to find your shielded key are available on_ [logging-in-tornado-cash-nova.md](logging-in-tornado-cash-nova.md "mention")_._
+  * **Choose another registered address:**トークンは、選択された受信者アドレスのシールドされたバランスに追加されます。この受信者アドレスは、以前プールに登録されていたシールドアドレスである必要があります。
+
+ログインしたときの`Recipient address`には、デフォルトでログインしたアドレスが入力されています。ツールの使い方によって、変更することができます。
+
+新しいアカウントを設定すると、後でプールにログインしたり、トルネードのシールド残高を確認したり、シールドアドレスかシールドキーを使ってシールド送金を受け取ったりすることができるようになります。
+
+*All information about how to use these elements to log in or where to find your shielded key are available on* [logging-in-tornado-cash-nova.md](logging-in-tornado-cash-nova.md)*.*
 
 #### **The following deposits 💸**
+次の預金は、口座がすでに設定されていることを除いて、最初の預金と同じルールに従います。
 
-The following deposits answer to the same rules that the first one, except that the account is already set.
+シールドアドレス/キーでプールにログインすることで、選んだ金額を選んだシールドアドレスに好きなように入金することができます。
 
-By logging into the pool with your shielded address / key, you can deposit your chosen amounts to your chosen shielded address as you wish to.
-
-⚠️ Since it is a beta version, deposits are currently limited to 1 ETH/transaction.\
-However, if the community wishes to increase this limit, the 1 ETH cap amount can always be changed through a governance proposal.
+⚠️ベータ版であるため、現在は入金が1ETH/トランザクションに制限されています。
+しかし、コミュニティがこの上限を増やしたいと思った場合、1ETHの上限額はガバナンスの提案によっていつでも変更することが可能です。
 
 ## Withdrawing Process <a href="#withdrawing-process" id="withdrawing-process"></a>
-
 ![](https://i.imgur.com/qn9eJXS.gif)
 
-To withdraw funds from the Nova pool, you can either:
+ノヴァプールから資金を引き出すには、次のいずれかの方法があります。
 
-* choose from a set of four predetermined amounts (0.1, 0.3, 0.5 & 1 ETH),
-* choose a completely customized amount by going through the button `Set custom`.
+* 0.1、0.3、0.5、1ETHの4つの金額から選択することができます。
+
+* `Set custom`のボタンから、完全にカスタマイズされた金額を選択できます。
 
 ### Custom Option For Withdrawal <a href="#custom-option-for-withdrawal" id="custom-option-for-withdrawal"></a>
-
 **The custom option should only be chosen with full knowledge of the following facts and in complete confidence in your actions.**
 
-To maintain your privacy, choosing one of the four suggested amounts is strongly recommended as it will allow your withdrawal to blend with the crowd.
+プライバシーを守るため、4つの推奨量から1つを選ぶと、引き出しが群衆に溶け込むので、強くお勧めします。
 
-Indeed, depending on the chosen amount, a connection might be deduced between your initial fund transaction and your withdrawal if:
+実際、選択した金額によっては、最初の資金取引と出金との間に関連性が推し量られる場合があります。
 
-* the initially funded amount & the withdrawn amount are exactly the same,
-* the funded & withdrawn amounts can be easily linked through a sum.
+* 当初積立額と引出額は全く同じです。
 
-_For instance, a deposit of 0.42 ETH can be linked to a withdrawal of exactly 0.42 ETH or two times 0.21 ETH, which might compromise anonymity. However, with a withdrawal of 0.391 ETH, privacy is better preserved as there is no obvious link between the 0.42 & 0.391 amounts._
+* 積立額と引出額を簡単に連動させることができます。
+
+*For instance, a deposit of 0.42 ETH can be linked to a withdrawal of exactly 0.42 ETH or two times 0.21 ETH, which might compromise anonymity. However, with a withdrawal of 0.391 ETH, privacy is better preserved as there is no obvious link between the 0.42 & 0.391 amounts.*
 
 ### Transactions through Gnosis Chain (L2) <a href="#transctions-through-gnosis-chain-l2" id="transctions-through-gnosis-chain-l2"></a>
+より安価な取引のために、Gnosis Chain（旧xDAI Chain）はLayer-2として使用される。このため、メインネットからのETHとGnosis ChainからのWETHの間にブリッジが使用されています。
 
-For cheaper transactions, Gnosis Chain (former xDAI Chain) is used as a Layer-2. To this end, a bridge is used between ETH from the Mainnet & WETH from Gnosis Chain.
-
-Therefore, to prevent spam attacks that will overload the bridge, the withdrawal amount has to be larger than 0.05 ETH.
+そのため、ブリッジに負荷をかけるスパム攻撃を防ぐため、出金額は0.05ETHより大きくなければならない。
 
 ### Bridge daily limits
-
-Daily limits on token exits (bridging tokens from Gnosis Chain to Ethereum) have been established for several tokens on the Gnosis chain.
-For more information about the daily limits please visit Gnosis Chain documentation:
+トークン退出（Gnosis ChainからEthereumへのトークンのブリッジ）の日次制限が、Gnosis Chain上のいくつかのトークンに設定されています。
+1日の制限の詳細については、Gnosis Chainのドキュメントをご覧ください。
 https://developers.gnosischain.com/for-users/bridges/bridge-daily-limits
 
-_Written by_ [_@ayefda_](https://torn.community/u/ayefda)
+*Written by* [*@ayefda*](https://torn.community/u/ayefda)
+

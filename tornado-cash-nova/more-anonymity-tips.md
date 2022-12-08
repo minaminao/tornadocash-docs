@@ -1,44 +1,48 @@
 # More Anonymity Tips
+このセクションでは、最初のステップとして[tips-to-remain-anonymous.md](../general/tips-to-remain-anonymous.md)のチュートリアルを参照します。このチュートリアルで説明されていることは、Tornado Cash Novaにも当てはまります。
 
-For this section, we refer you to the [tips-to-remain-anonymous.md](../general/tips-to-remain-anonymous.md "mention") tutorial as a first step. All points mentioned in this tutorial still apply to Tornado Cash Nova.
+簡単な覚え書きですが、このようなヒントがあります。
 
-As a quick reminder, these tips include:
+* VPNを利用すること。
 
-* Using of a VPN,
-* Not sharing the shielded key or the access to this shielded address
-* If downloaded, keeping this shielded key in a safe place,
-* Deleting data after use,
-* Avoiding the use of the same API token for all transactions,
-* Being patient between the moment of deposit & withdrawal,
-* Using multiple addresses for withdrawal.
+* シールドキーやこのシールドアドレスへのアクセス権を共有しないこと
 
-However, with its new features, Tornado Cash Nova requires further precautions to maintain anonymity.
+* ダウンロードした場合は、このシールドキーを安全な場所に保管してください。
+
+* 使用後のデータ削除
+
+* すべてのトランザクションで同じAPIトークンを使用することを避けることができます。
+
+* 入金＆出金の瞬間の間に我慢すること。
+
+* 出金に複数のアドレスを使用すること。
+
+しかし、新機能を搭載したトルネードキャッシュ・ノヴァでは、匿名性を維持するためにさらなる注意が必要です。
 
 ## Use of Relayers <a href="#use-of-relayers" id="use-of-relayers"></a>
+取引には、ガス代の支払いが必要です。シールド送金＆出金では、ガス代のETHを用意するために、2つの支払い方法が用意されています。**connect your wallet or use a Relayer**のどちらかを選択することができます。
 
-Gas fees payments are necessary for transactions. For shielded transfers & withdrawals, two payment methods are available to provide ETH for gas fee. You can either **connect your wallet or use a Relayer**.
-
-Going through your wallet for this gas fee can compromise the anonymity of the transaction if used ETH are linkable to your identity. Therefore, **it is recommended to use a Relayer to preserve privacy**
+このガス代のためにウォレットを経由することは、使用されたETHがあなたのアイデンティティとリンクできる場合、トランザクションの匿名性を損なう可能性があります。そのため、**it is recommended to use a Relayer to preserve privacy**
 
 ![Tips1](https://i.imgur.com/PsZ89Ym.png)
 
 ## Choice of Withdrawal Amounts <a href="#choice-of-withdrawal-amounts" id="choice-of-withdrawal-amounts"></a>
-
-The customized amounts feature offers more flexibility & freedom of usage. However, it can compromise your privacy if used carelessly.
+金額のカスタマイズ機能は、より柔軟で自由な使い方を可能にします。しかし、不用意に使用すると、プライバシーを侵害する可能性があります。
 
 ### Choosing predefined amounts for withdrawals <a href="#choosing-predefined-amounts-for-withdrawals" id="choosing-predefined-amounts-for-withdrawals"></a>
-
 ![Tips2](https://i.imgur.com/dKYvNQT.png)
 
-Choosing one of the four predefined amounts is strongly recommended as it will allow your withdrawal to blend with the crowd and remain anonymous.
+あらかじめ設定された4つの金額から1つを選択することを強くお勧めします。そうすることで、あなたの引き出しを群衆に溶け込ませ、匿名性を保つことができます。
 
-You still have the freedom to `Set custom` to withdraw a customized amount of you choice. However, depending on the chosen amount, a connection might be deduced between your initial fund transaction and your withdrawal if:
+お客様は、`Set custom`を選択し、カスタマイズした金額を出金する自由があります。ただし、選択された金額によっては、最初の資金取引と出金の間に接続が差し引かれる場合があります。
 
-* the initially funded amount & the withdrawn amount are exactly the same,
-* the funded & withdrawn amounts can easily be linked through a sum.
+* 当初積立額と引出額は全く同じです。
 
-For instance, a deposit of 0.42 ETH can be linked to a withdrawal of exactly 0.42 ETH or two times 0.21 ETH, which might compromise anonymity. However, with a withdrawal of 0.391 ETH, privacy is better preserved as there is no obvious link between the 0.42 & 0.391 amounts.
+* 積立額と引出額を簡単に連動させることができます。
 
-The custom option should only be chosen with full knowledge of these facts and in complete confidence in your actions.
+例えば、0.42ETHの預金は、ちょうど0.42ETHまたは2倍の0.21ETHの引き出しにリンクすることができ、匿名性が損なわれる可能性があります。しかし、0.391ETHの引き出しでは、0.42と0.391の金額の間に明らかなリンクがないため、プライバシーはよりよく保護されます。
 
-_Written by_ [_@ayefda_](https://torn.community/u/ayefda)
+カスタムオプションは、これらの事実を十分に理解した上で、自分の行動に完全な自信を持って選択する必要があります。
+
+*Written by* [*@ayefda*](https://torn.community/u/ayefda)
+

@@ -1,104 +1,110 @@
 # Logging In Tornado Cash Nova
+2021年12月に開始されたTornado Cash Novaは、取引にカスタマイズされた金額を選択する自由があり、匿名プールを離れることなくトークンを転送する機能も備えています。このようなユニークな機能を持つこの新しいプールは、独自の指示を必要とします。
 
-Launched in December 2021, Tornado Cash Nova offers the freedom to choose customized amounts for transactions, as well as the ability to transfer tokens without leaving the anonymity pool. With such unique features, this new pool requires its own set of instructions.
-
-Tornado Cash Nova (beta version) can be accessed through its own decentralized app at[ nova.tornadocash.eth.link](https://nova.tornadocash.eth.link).
+トルネードキャッシュ・ノヴァ（ベータ版）は、独自の分散型アプリ「at[ nova.tornadocash.eth.link](https://nova.tornadocash.eth.link)」からアクセスすることができる。
 
 ![](https://i.imgur.com/F8pojDs.png)
 
-First of all, welcome to Tornado Cash Nova pool & let’s discover how this brand new tool functions 🌪
+まず最初に、Tornado Cash Novaプールへようこそ！この全く新しいツールがどのように機能するのか見てみましょう🌪。
 
 ## Log In <a href="#log-in-nova" id="log-in-nova"></a>
-
 ![](https://i.imgur.com/uHPTk13.png)
 
-You can log into your Tornado Cash Nova account either by:
+トルネード・キャッシュ・ノヴァのアカウントには、以下のいずれかの方法でログインすることができます。
 
-* **connecting the MetaMask Wallet** with the address linked to your Nova account,
-* **using the Shielded Key** that was generated alongside the creation of your account.
+* **connecting the MetaMask Wallet**をNovaアカウントにリンクされたアドレスに変換します。
 
-Each account is connected to a unique **shielded address** (as well as a unique **shielded key**) that can both be used to log in & manage your balance within the Nova pool.
+* アカウント作成と同時に生成された**using the Shielded Key**。
+
+各アカウントは一意の**shielded address**（および一意の**shielded key**）に接続されており、どちらもログインしてNovaプール内の残高を管理するのに使用できます。
 
 ### Tornado Cash Nova Account <a href="#tornado-cash-nova-account" id="tornado-cash-nova-account"></a>
+Novaプールにログインすると、以下のことが可能になります。
 
-Logging into the Nova pool will allow you to:
+* **check your shielded balance**は、現在Novaプールで保有しているトークンの量を表しています。
 
-* **check your shielded balance** which represents the amount of tokens currently owned in the Nova pool,
-* **fund your balance** with further tokens,
-* **transfer the custody of tokens** to another shielded address registered to the pool,
-* **withdraw any desired amount of tokens** through the destination address of your chosing.
+* **fund your balance**をさらにトークンで。
 
-Only those who have access to your Metamask wallet or to your Shielded key will be able to access these informations regarding your account (i.e. your shielded balance).\
-⚠️ Be aware of which information you share with whom.
+* **transfer the custody of tokens**をプールに登録されている他のシールドアドレスに送信します。
+
+* **withdraw any desired amount of tokens**から任意のデスティネーション・アドレスを選択。
+
+メタマスクウォレットまたはシールドキーにアクセスできる人だけが、あなたのアカウントに関するこれらの情報（シールド残高など）にアクセスすることができます。
+⚠️どの情報を誰と共有するかを意識してください。
 
 # Logging in with MetaMask <a href="#metamask-wallet" id="metamask-wallet"></a>
+トルネード・キャッシュ・ノヴァの各アカウントは、シールドされたアドレスにリンクされています。上記のように、ユーザーは自分のアカウントとその残高にアクセスする方法が2つあります。そのうちの1つが**through a MetaMask wallet connected to the appropriate shielded address**です。
 
-Each Tornado Cash Nova account is linked to a shielded address. As mentionned above, users have two ways to access their account & its balance. One of these ways is **through a MetaMask wallet connected to the appropriate shielded address**.
+* トルネードキャッシュのランディングページから、https://nova.tornadocash.eth.limo/ または別のリンクにアクセスしてください。
 
-* Go to https://nova.tornadocash.eth.limo/ or any of the alternative links from Tornado Cash landing page.
-* Click on the `Log in` button.
+* `Log in`ボタンをクリックします。
 
 ![](https://imgur.com/aSjaNa4.png)
 
-* Select `Using Metamask`.
-* Choose the wallet you want to connect with, and sign the request in your Metamask.
+* `Using Metamask`を選択します。
+
+* 接続したいウォレットを選択し、メタマスクでリクエストに署名します。
 
 ![](https://imgur.com/AXB0bYR.png) ![](https://imgur.com/Anb2KI4.png)
 
-You have 2 alternatives, funding the default wallet connected to Nova, which will automatically create a shielded address, or fund **another registered shielded address**.
-To fund the default wallet:
-* Select the amount of funds you want to deposit.
-* Click on `Fund`.
-* Sign the transaction in your wallet and wait for it to be confirmed.
+Novaに接続されているデフォルトのウォレットに資金を供給し、自動的にシールドアドレスを作成する方法と、**another registered shielded address**に資金を供給する方法の2つがあります。
+デフォルトのウォレットに資金を供給する場合。
+
+* 入金する金額を選択します。
+
+* `Fund`をクリックします。
+
+* ウォレットで取引に署名し、確認されるのを待ちます。
 
 ![](https://imgur.com/scB6sMs.png) ![](https://imgur.com/Be2mNGG.png)
 
-After the transaction is succesful, you will find your shielded balance here.
+取引に成功すると、ここにシールドされた残高が表示されます。
 
 ![](https://imgur.com/LllWMQT.png)
 
-To fund **another registered shielded address**, paste it under *Recipient Address*, and follow the same steps as above.
+**another registered shielded address**を資金化する場合は、*Recipient Address*の下に貼り付けて、上記と同様の手順で資金化します。
 
-_More information about the Funding action is availaible on_ [_Fund & Withdraw on Nova_](fund-and-withdraw-on-nova.md)__
-
+*More information about the Funding action is availaible on* [*Fund & Withdraw on Nova*](fund-and-withdraw-on-nova.md)__
 
 # Set up an account with a shielded key
-
-However, shielded addresses can also be created from scratch as a separate action by logging in a new address with no prior link to Tornado Cash Nova.
+ただし、シールドアドレスは、トルネードキャッシュノヴァと事前にリンクしていない新しいアドレスをログインすることで、別のアクションとしてゼロから作成することも可能です。
 
 ![](https://imgur.com/RuFVU1R.png)
 
-* Click on `Set up account`.
-* A pop-up window will appear for you to save your shielded key (do not share this key !)
-* Sign the transaction in your wallet, and you're done.
+* `Set up account`をクリックします。
+
+* シールドキーを保存するためのポップアップウィンドウが表示されます。
+
+* ウォレットで取引に署名して完了です。
 
 ![](https://imgur.com/YKiLFKv.png)
 
-Your shielded address will be crypted & created with the generation of a shielded key.
+シールドアドレスは、シールドキーの生成により暗号化＆作成されます。
 
-Once the account is set, you will be able to receive shielded transfers of tokens from any another address registered to the pool. You will also be able to fund, transfer & withdraw tokens as you wish.
+アカウントを設定すると、プールに登録されている他のアドレスからトークンのシールドされた転送を受け取ることができるようになります。また、トークンの入金、送金、引き出しも自由に行えるようになります。
 
 # Logging in with a Shielded Key <a href="#shielded-key" id="shielded-key"></a>
+上で見たように、もう一つのログイン方法は、新しいシールドアドレスの設定によってアカウントが作成されるときに作成される**through the generated Shielded Key**です。
 
-As seen above, the other way to log in is **through the generated Shielded Key** that is created when an account is created through the set up of a new shielded address.
+* `Log in`ボタンをクリックします。
 
-* Click the `Log in` button.
-* Select `Using private key`.
-* Paste your shielded key in the box and click on `Log in`.
+* `Using private key`を選択します。
+
+* シールドキーを貼り付け、`Log in`をクリックします。
 
 ![](https://imgur.com/aSjaNa4.png)
 ![](https://imgur.com/cuAfYUN.png) ![](https://imgur.com/6gWPr0C.png)
 
 ## Recover your shielded key
-
-Once you are logged in with your address & your account is set up, you can download this shielded key at any time by accessing your account data (by clicking on your address, next to your shielded balance).
+あなたのアドレスでログイン＆あなたのアカウントが設定されると、あなたのアカウントデータにアクセスすることで（あなたのアドレス、あなたのシールド残高の横をクリック）、いつでもこのシールドキーをダウンロードすることができます。
 
 ![](https://i.imgur.com/RFac1HU.png)
 
 ![](https://i.imgur.com/F2Scf8w.png)
 
-To obtain full privacy, the same good practices that were recommended for traditional Tornado Cash pools are still required. _You can find guidelines to maintain privacy in the protocol’s documentation:_ [_Tips to remain anonymous_](../general/tips-to-remain-anonymous.md) _&_ [_More anonymity tips_](more-anonymity-tips.md)_._
+完全なプライバシーを得るためには、従来のトルネード・キャッシュ・プールで推奨されたのと同じ良い習慣が必要です。x00 x02 x03 x05x06
 
 \_\_
 
-_Written by_ [_@ayefda_](https://torn.community/u/ayefda)
+*Written by* [*@ayefda*](https://torn.community/u/ayefda)
+
